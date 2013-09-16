@@ -2,7 +2,7 @@ from django.db import models
 
 # Create your models here.
 
-class Question(models.Model):
+class Patient(models.Model):
 
     GENRE_CHOICES = (
         ('M', 'Male'),
