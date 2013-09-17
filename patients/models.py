@@ -33,6 +33,7 @@ class MedicalInterview(models.Model):
     CHEMO_RISK_CHOICES = [(i,i) for i in range(0, 8)]
 
     #fields
+    patient = models.ForeignKey('Patient', related_name='medical_interviews')
     date = models.DateField('Date')
     performance_status = models.CharField(max_length=2,
                                           choices=PF_CHOICES)

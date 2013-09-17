@@ -1,12 +1,16 @@
 from django.contrib import admin
 from patients.models import Patient, MedicalInterview
 
+
+class MedicalInterviewAdmin(admin.TabularInline):
+	model = MedicalInterview
+
+#admin.site.register(MedicalInterview, MedicalInterviewAdmin)
+
+
 class PatientAdmin(admin.ModelAdmin):
-    pass
+	inlines = [
+        MedicalInterviewAdmin,
+    ]
 
 admin.site.register(Patient, PatientAdmin)
-
-class MedicalInterviewAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(MedicalInterview, MedicalInterviewAdmin)
