@@ -113,7 +113,14 @@ ROOT_URLCONF = 'crashplusplus.urls'
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'crashplusplus.wsgi.application'
 
+import os
+
+PROJECT_ROOT = os.path.normpath(os.path.dirname(__file__))
+
+BASE_DIR = os.path.join(PROJECT_ROOT, '../')
+
 TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR, 'templates')
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -123,10 +130,9 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    #'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'south',
     'patients',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
