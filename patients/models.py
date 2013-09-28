@@ -30,6 +30,9 @@ class Patient(models.Model):
     study_level =  models.IntegerField(choices=STUDY_LEVEL_CHOICES)
     social_support = models.BooleanField()
 
+    def __unicode__(self):
+        return "%s %s - %s" % (self.name, self.last_name, self.dni)
+
 
 class MedicalInterview(models.Model):
 
