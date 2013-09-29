@@ -1,5 +1,6 @@
 from django.db import models
 from utils import get_cie10
+import eav
 
 # Create your models here.
 
@@ -94,3 +95,5 @@ class MedicalInterview(models.Model):
     discontinuation = models.BooleanField()
     observations = models.CharField(max_length=200, blank=True, null=True)
 
+
+eav.register(MedicalInterview)

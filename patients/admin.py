@@ -1,23 +1,31 @@
 from django.contrib import admin
 from patients.models import Patient, MedicalInterview
+from eav.admin import BaseEntityInline
+from eav.forms import BaseDynamicEntityForm
 
 
-class MedicalInterviewAdmin(admin.StackedInline):
+class MedicalForm(BaseDynamicEntityForm):
+    class Meta:
+        model = MedicalInterview
+
+
+class MedicalInterviewAdmin(BaseEntityInline, admin.StackedInline):
     model = MedicalInterview
+    form = MedicalForm
     extra = 0
-    fieldsets = (
-        (None, {
-            'fields': ('date', ),
-        }),
-        ("interview Data", {'fields': ('performance_status', 'cie_10', 'initial_stage',
-            'current_stage', 'bone_compromised', 'prior_chemotherapies',
-            'current_treatment_type', 'aivd', 'mmt', 'mna',
-            'number_comorbidity_categories', 'cirs_g_index', 'cirs_g_severity_3',
-            'falls', 'usual_medication', 'ldh', 'diatolic_blood_pressure',
-            'weight', 'size', 'chemotherapy_scheme', 'chemotherapy_risk',
-            'dose_adjustment', 'discontinuation', 'observations'),
-            'classes': ("collapse",)})
-    )
+    # fieldsets = (
+    #     (None, {
+    #         'fields': ('date', ),
+    #     }),
+    #     ("interview Data", {'fields': ('performance_status', 'cie_10', 'initial_stage',
+    #         'current_stage', 'bone_compromised', 'prior_chemotherapies',
+    #         'current_treatment_type', 'aivd', 'mmt', 'mna',
+    #         'number_comorbidity_categories', 'cirs_g_index', 'cirs_g_severity_3',
+    #         'falls', 'usual_medication', 'ldh', 'diatolic_blood_pressure',
+    #         'weight', 'size', 'chemotherapy_scheme', 'chemotherapy_risk',
+    #         'dose_adjustment', 'discontinuation', 'observations'),
+    #         'classes': ("collapse",)})
+    # )
 
     # def get_readonly_fields(self, request, obj=None):
     #     if 'edit' not in request.GET and len(self.queryset(request)) > 0:
