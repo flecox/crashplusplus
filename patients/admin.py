@@ -70,12 +70,12 @@ class PatientAdmin(admin.ModelAdmin):
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
-        extra_context['add'] = False
-        # or
-        extra_context['show_save'] = False
-        extra_context['show_save_continue'] = False
-        extra_context['show_save_continue'] = False
-        extra_context['show_save_add'] = False
+        if not request.GET.get('edit', False):
+            extra_context['add'] = False
+            extra_context['show_save'] = False
+            extra_context['show_save_continue'] = False
+            extra_context['show_save_continue'] = False
+            extra_context['show_save_add'] = False
         return super(PatientAdmin, self).change_view(request, object_id,
             form_url, extra_context=extra_context)
 
