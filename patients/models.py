@@ -1,8 +1,29 @@
 from django.db import models
 from utils import get_cie10
+from django.contrib.auth.models import User, Group
 import eav
 
 # Create your models here.
+
+class Medic(models.Model):
+    user = models.OneToOneField(User)
+    medic_id_number = models.CharField(max_length=100)
+
+    def save(self, force_insert=False, force_update=False):
+        try:
+            group = Group.objects.get(name='Medic')
+        except Group.DoesNotExist:
+            # group should exist, but this is just for safety's sake, it case the improbable should happen
+            pass
+        else:
+            self.user.groups.add(group)
+        self.user.is_staff = True
+        self.user.save()
+        super(Medic, self).save(force_insert, force_update)
+
+    def __unicode__(self):
+        return "%s-%s" % (self.user.username, self.medic_id_number)
+
 
 class Patient(models.Model):
 
@@ -62,6 +83,7 @@ class MedicalInterview(models.Model):
 
     #fields
     patient = models.ForeignKey('Patient', related_name='medical_interviews')
+    medic = models.ForeignKey('Medic')
     date = models.DateField('Date')
 
     performance_status = models.IntegerField(choices=PF_CHOICES, blank=True, null=True)

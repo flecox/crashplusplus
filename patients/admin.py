@@ -1,7 +1,12 @@
 from django.contrib import admin
-from patients.models import Patient, MedicalInterview
+from patients.models import Patient, MedicalInterview, Medic
 from eav.admin import BaseEntityInline
 from eav.forms import BaseDynamicEntityForm
+
+class MedicAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(Medic, MedicAdmin)
 
 
 class MedicalForm(BaseDynamicEntityForm):
