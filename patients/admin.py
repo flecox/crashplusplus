@@ -14,9 +14,9 @@ class MedicalForm(BaseDynamicEntityForm):
         model = MedicalInterview
 
 
-class MedicalInterviewAdmin(BaseEntityInline, admin.StackedInline):
+class MedicalInterviewAdmin(admin.StackedInline):
     model = MedicalInterview
-    form = MedicalForm
+    #form = MedicalForm
     extra = 0
     # fieldsets = (
     #     (None, {
@@ -42,8 +42,14 @@ class MedicalInterviewAdmin(BaseEntityInline, admin.StackedInline):
 
 
 class PatientAdmin(admin.ModelAdmin):
+    name = "Paciente"
     list_display_links = ('name', 'last_name')
     list_display = ('name', 'last_name', 'clinical_history', 'dni')
+
+    class Media:
+        js = (
+            "/static/patients/js/jquery.easyModal.js",
+        )
 
     inlines = [
         MedicalInterviewAdmin,
@@ -72,7 +78,7 @@ class PatientAdmin(admin.ModelAdmin):
         extra_context = extra_context or {}
         if not request.GET.get('edit', False):
             extra_context['add'] = False
-            extra_context['show_save'] = False
+            extra_context['show_save'] = True
             extra_context['show_save_continue'] = False
             extra_context['show_save_continue'] = False
             extra_context['show_save_add'] = False

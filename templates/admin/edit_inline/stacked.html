@@ -1,0 +1,87 @@
+{% load i18n admin_static %}
+<div class="inline-group" id="{{ inline_admin_formset.formset.prefix }}-group">
+  <h2>{{ inline_admin_formset.opts.verbose_name_plural|title }}</h2>
+{{ inline_admin_formset.formset.management_form }}
+{{ inline_admin_formset.formset.non_form_errors }}
+
+{% for inline_admin_form in inline_admin_formset %}<div class="inline-related{% if forloop.last %} empty-form last-related{% endif %}" id="{{ inline_admin_formset.formset.prefix }}-{% if not forloop.last %}{{ forloop.counter0 }}{% else %}empty{% endif %}">
+  <h3><b>{{ inline_admin_formset.opts.verbose_name|title }}:</b>&nbsp;<span class="inline_label">{% if inline_admin_form.original %}{{ inline_admin_form.original }}{% else %}#{{ forloop.counter }}{% endif %}</span>
+    {% if inline_admin_form.show_url %}<a href="{% url 'admin:view_on_site' inline_admin_form.original_content_type_id inline_admin_form.original.pk %}">{% trans "View on site" %}</a>{% endif %}
+    {% if inline_admin_formset.formset.can_delete and inline_admin_form.original %}<span class="delete">{{ inline_admin_form.deletion_field.field }} {{ inline_admin_form.deletion_field.label_tag }}</span>{% endif %}
+  </h3>
+  {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
+  {% for fieldset in inline_admin_form %}
+    {% include "admin/includes/fieldset.html" %}
+  <div class="result-button" style="padding: 2px; text-align: center; background-color: #edd;">
+  <input type="submit" value="Calcular Riesgos de Toxicidad" name="calculate" class="calculate-medic" style="padding: 10px;
+font-weight: bold;"/>
+  </div>
+  {% endfor %}
+  {% if inline_admin_form.has_auto_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
+  {{ inline_admin_form.fk_field.field }}
+</div>{% endfor %}
+</div>
+<div class="modal-container" style="background-color: #fff; position:relative;">
+  <div style="position: absolute; top:4px; right:4px; cursor:pointer" class="close-modal">X</div>
+  <div class="modal" style="padding: 40px; font-size:14px;">
+  PROBANDO MODAL
+</div>
+</div>
+<script type="text/javascript">
+(function($) {
+  $(".modal-container").easyModal();
+  $(".close-modal").click(function() {
+    $(".modal-container").trigger('closeModal');
+  });
+  $(".calculate-medic").click(function(e) {
+      e.preventDefault();
+      var parent = $(this).parent().parent();
+      var splitted = parent.attr("id").split("-");
+      index = splitted[splitted.length -1];
+      console.log(index);
+      var id = "id_medical_interviews-" + index + "-"
+      var attr_list = ["performance_status", 'aivd', 'mmt', 'mna', 'ldh',
+        'weight', 'size', 'diatolic_blood_pressure', 'chemotherapy_scheme'];
+      var data ={}
+
+      var i = 0;
+      var can_send = true;
+      for(i=0; i< attr_list.length; i++) {
+        var attr = attr_list[i];
+        var field = $("#"+id + attr);
+        data[attr] = field.val();
+        if(!data[attr]) {
+          var container = field.parent().parent();
+          container.prepend("<ul class='errorlist'><li>Este campo es obligatorio</li></ul>");
+          var can_send = false;
+        }
+      }
+
+      if(can_send){
+          console.log(data);
+        $.ajax({
+          url: '/results/',
+          type: 'GET',
+          async: false,
+          data: data,
+          success: function(result, e) {
+            $(".modal-container .modal").html(result);
+            $(".modal-container").trigger('openModal');
+          }
+        });
+      } else {
+        $(".modal-container .modal").html("Falta llenar algunos campos");
+          $(".modal-container").trigger('openModal');
+      }
+      return false;
+  })
+
+
+  $("#{{ inline_admin_formset.formset.prefix }}-group .inline-related").stackedFormset({
+    prefix: '{{ inline_admin_formset.formset.prefix }}',
+    adminStaticPrefix: '{% static "admin/" %}',
+    deleteText: "{% trans "Remove" %}",
+    addText: "{% blocktrans with verbose_name=inline_admin_formset.opts.verbose_name|title %}Add another {{ verbose_name }}{% endblocktrans %}"
+  });
+})(django.jQuery);
+</script>

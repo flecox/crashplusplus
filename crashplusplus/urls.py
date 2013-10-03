@@ -2,6 +2,7 @@ from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
+
 admin.autodiscover()
 
 urlpatterns = patterns('',
@@ -16,4 +17,5 @@ urlpatterns = patterns('',
     (r'^admin/$', 'patients.views.redirect'),
     (r'^admin/patients/$', 'patients.views.redirect'),
     url(r'^admin/', include(admin.site.urls)),
+    (r'^results/$',include('patients.urls')),
 )
