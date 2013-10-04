@@ -48,7 +48,16 @@ class Command(NoArgsCommand):
         ChemotherapySchema(title='Docetaxel cada 3 semanas', risk=2).save()
         ChemotherapySchema(title='Topotecan semanal', risk=2).save()
 
-
+        from django.contrib.auth.models import Group, Permission
+        medic = Group(name="Medic")
+        medic.save()
+        medic.permissions.add(Permission.objects.get(codename='add_patient'))
+        medic.permissions.add(Permission.objects.get(codename='change_patient'))
+        medic.permissions.add(Permission.objects.get(codename='delete_patient'))
+        medic.permissions.add(Permission.objects.get(codename='add_medicalinterview'))
+        medic.permissions.add(Permission.objects.get(codename='change_medicalinterview'))
+        medic.permissions.add(Permission.objects.get(codename='delete_medicalinterview'))
+        medic.save()
 
         directory = os.path.dirname(os.path.abspath(__file__))
         resoureces_dir = os.path.join(directory,'..', '..', 'resources', 'CSV_CIE10.csv')

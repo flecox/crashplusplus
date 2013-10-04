@@ -71,13 +71,13 @@ class Patient(models.Model):
     name = models.CharField("Nombre", max_length=100, )
     last_name = models.CharField("Apellido", max_length=100)
     born_date = models.DateField('Fecha Nacimiento')
-    genre = models.CharField(max_length=2,
+    genre = models.CharField("Genero", max_length=2,
                              choices=GENRE_CHOICES)
     dni = models.CharField(max_length=8)
-    clinical_history = models.CharField(max_length=20)
-    phone = models.CharField(max_length=20)
-    study_level =  models.IntegerField(choices=STUDY_LEVEL_CHOICES)
-    social_support = models.BooleanField()
+    clinical_history = models.CharField("Historia Clinica", max_length=20)
+    phone = models.CharField("Telefono", max_length=20)
+    study_level =  models.IntegerField("Nivel de estudio", choices=STUDY_LEVEL_CHOICES)
+    social_support = models.BooleanField("Apoyo Social")
 
     class Meta:
         verbose_name = "Paciente"
@@ -125,7 +125,7 @@ class MedicalInterview(models.Model):
 
     #fields
     patient = models.ForeignKey('Patient', related_name='medical_interviews')
-    medico = models.ForeignKey('Medic')
+    medico = models.ForeignKey('Medic', verbose_name="Medico")
     date = models.DateField('Fecha')
 
     performance_status = models.IntegerField("Estado Funcional",choices=PF_CHOICES, blank=True, null=True)
@@ -152,11 +152,16 @@ class MedicalInterview(models.Model):
     #use cm
     size = models.IntegerField("Talla", blank=True, null=True)
     #modelo con esquemas de quimio.
-    chemotherapy_scheme = models.ForeignKey("ChemotherapySchema")
+    chemotherapy_scheme = models.ForeignKey("ChemotherapySchema", verbose_name="Esquema de Quimioterapia")
+
+
     chemotherapy_risk = models.IntegerField("Riesgo de Quimioterapia", choices=CHEMO_RISK_CHOICES, blank=True, null=True)
     dose_adjustment = models.CharField("Ajuste de Dosis", max_length=30, blank=True, null=True)
     discontinuation = models.BooleanField("Interrupción de Tratamiento")
     observations = models.CharField("Observaciones", max_length=200, blank=True, null=True)
+
+    def __unicode__(self):
+        return self.date
 
     class Meta:
         verbose_name = "Consulta"

@@ -43,7 +43,6 @@ def medic_calculation(request):
         riesgo_por_quimio = scheme.risk
     except:
         riesgo_por_quimio = 0
-    import pdb; pdb.set_trace()
     #falta
 
     result = 0
