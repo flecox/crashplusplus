@@ -38,7 +38,6 @@ font-weight: bold;"/>
       var parent = $(this).parent().parent();
       var splitted = parent.attr("id").split("-");
       index = splitted[splitted.length -1];
-      console.log(index);
       var id = "id_medical_interviews-" + index + "-"
       var attr_list = ["performance_status", 'aivd', 'mmt', 'mna', 'ldh',
         'weight', 'size', 'diatolic_blood_pressure', 'chemotherapy_scheme'];
@@ -53,7 +52,6 @@ font-weight: bold;"/>
         var attr = attr_list[i];
         var field = $("#"+id + attr);
         data[attr] = field.val();
-        console.log(integers.indexOf(attr));
         if(!data[attr]) {
           var container = field.parent().parent();
           container.prepend("<ul class='errorlist'><li>Este campo es obligatorio</li></ul>");
@@ -77,7 +75,6 @@ font-weight: bold;"/>
 
 
       if(can_send){
-          console.log(data);
         $.ajax({
           url: '/results/',
           type: 'GET',
