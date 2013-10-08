@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, Group
 
 # Create your models here.
 
+
 class Cie10(models.Model):
     value = models.CharField("Valor", max_length=10)
     description = models.CharField("Descripción", max_length=100)
@@ -36,7 +37,8 @@ class Medic(models.Model):
         try:
             group = Group.objects.get(name='Medic')
         except Group.DoesNotExist:
-            # group should exist, but this is just for safety's sake, it case the improbable should happen
+            # group should exist, but this is just for safety's sake,
+            # it case the improbable should happen
             pass
         else:
             self.user.groups.add(group)
@@ -76,7 +78,8 @@ class Patient(models.Model):
     dni = models.CharField(max_length=8)
     clinical_history = models.CharField("Historia Clinica", max_length=20)
     phone = models.CharField("Telefono", max_length=20)
-    study_level =  models.IntegerField("Nivel de estudio", choices=STUDY_LEVEL_CHOICES)
+    study_level = models.IntegerField("Nivel de estudio",
+                                      choices=STUDY_LEVEL_CHOICES)
     social_support = models.BooleanField("Apoyo Social")
 
     class Meta:
@@ -89,26 +92,18 @@ class Patient(models.Model):
 
 class MedicalInterview(models.Model):
 
-
     TREATMENT_TYPE_CHOICE = (
         (0, 'adyuvante'),
         (1, 'neoadyuvante'),
-        (2, 'First line advanced'),
-        (3, 'Second line advanced'),
-        (4, 'Third line advanced'),
-        (5, 'Four line advanced'),
+        (2, 'Primera linea avanzado'),
+        (3, 'Segunda linea avanzado'),
+        (4, 'Tercera linea avanzado'),
+        (5, 'Cuarta linea avanzado'),
+        (5, 'Multiples lineas'),
     )
-
 
     #choices for choice fields
-    PF_CHOICES = (
-        (0, "ECOG0: Vida Normal"),
-        (1, "ECOG1: no puede hacer trabajo duro"),
-        (2, "ECOG2: <50% en cama"),
-        (3, "ECOG3: >50% en cama"),
-        (4, "ECOG4: 100% en cama"),
-        (5, "ECOG5: Fallecido"),
-    )
+    PF_CHOICES = [(i, i) for i in range(0, 6)]
 
     CANCER_STAGE_CHOICE = (
         (0, "0"),
@@ -117,48 +112,71 @@ class MedicalInterview(models.Model):
         (3, "III"),
         (4, "IV"),
     )
-    AIVD_CHOICES = [(i,i) for i in range(0, 31)]
-    MNA_CHOICES = [(i,i) for i in range(0, 15)]
-    N_COM_CAT_CHOICES = [(i,i) for i in range(1, 7)]
-    CIRS_G_SEV_CHOICES = [(i,i) for i in range(0, 14)]
-    CHEMO_RISK_CHOICES = [(i,i) for i in range(0, 8)]
+
+    AIVD_CHOICES = [(i, i) for i in range(0, 31)]
+    MNA_CHOICES = [(i, i) for i in range(0, 15)]
+    N_COM_CAT_CHOICES = [(i, i) for i in range(1, 7)]
+    CIRS_G_SEV_CHOICES = [(i, i) for i in range(0, 14)]
+    CHEMO_RISK_CHOICES = [(i, i) for i in range(0, 8)]
 
     #fields
     patient = models.ForeignKey('Patient', related_name='medical_interviews')
     medico = models.ForeignKey('Medic', verbose_name="Medico")
     date = models.DateField('Fecha')
 
-    performance_status = models.IntegerField("Estado Funcional",choices=PF_CHOICES, blank=True, null=True)
+    performance_status = models.IntegerField("Performance Status",
+                                             choices=PF_CHOICES,
+                                             blank=True, null=True)
     cie_10 = models.ForeignKey("Cie10")
-    initial_stage = models.IntegerField("Estado Inicial",choices=CANCER_STAGE_CHOICE)
-    current_stage = models.IntegerField("Estado Actual", choices=CANCER_STAGE_CHOICE)
+    stage = models.IntegerField("Estadio Actual", choices=CANCER_STAGE_CHOICE)
     bone_compromised = models.BooleanField("Compromiso Óseo")
-    prior_chemotherapies = models.CharField("Quimioterapias Anteriores", max_length=10, blank=True, null=True)
-    current_treatment_type = models.IntegerField("Tipo de Tratamiento Actual", choices=TREATMENT_TYPE_CHOICE)
-    aivd = models.IntegerField("Aivd", choices=AIVD_CHOICES, blank=True, null=True)
-    mmt = models.IntegerField("Mmt", choices=AIVD_CHOICES, blank=True, null=True)
+    prior_chemotherapies = models.CharField("Quimioterapias Anteriores",
+                                            max_length=10, blank=True,
+                                            null=True)
+    current_treatment_type = models.IntegerField("Tipo de Tratamiento Actual",
+                                                 choices=TREATMENT_TYPE_CHOICE)
+    aivd = models.IntegerField("Aivd", choices=AIVD_CHOICES, blank=True,
+                               null=True)
+    mmt = models.IntegerField("Mmt", choices=AIVD_CHOICES, blank=True,
+                              null=True)
 
-    mna = models.IntegerField("Mna",choices=MNA_CHOICES, blank=True, null=True)
+    mna = models.IntegerField("Mna", choices=MNA_CHOICES, blank=True,
+                              null=True)
     #1,2,3 y 6!!!!
-    number_comorbidity_categories = models.IntegerField("N° de categorias de comorbilidades",choices=N_COM_CAT_CHOICES, blank=True, null=True)
+    number_comorbidity_categories = models.IntegerField(
+        "N° de categorias de comorbilidades",
+        choices=N_COM_CAT_CHOICES, blank=True, null=True
+    )
 
     cirs_g_index = models.FloatField("Indice Cirs-g", blank=True, null=True)
-    cirs_g_severity_3 = models.IntegerField("Cirs-g severidad 3", choices=CIRS_G_SEV_CHOICES, blank=True, null=True)
+    cirs_g_severity_3 = models.IntegerField("Cirs-g severidad 3",
+                                            choices=CIRS_G_SEV_CHOICES,
+                                            blank=True, null=True)
     falls = models.IntegerField("Caidas", null=True, blank=True)
-    usual_medication = models.CharField("Medicación Usual", max_length=20, blank=True, null=True)
+    usual_medication = models.CharField("Medicación Usual", max_length=20,
+                                        blank=True, null=True)
     ldh = models.IntegerField("LDH", null=True, blank=True)
-    diatolic_blood_pressure = models.IntegerField("Tensión Aterial Diastolica", blank=True, null=True)
+    diatolic_blood_pressure = models.IntegerField("Tensión Aterial Diastolica",
+                                                  blank=True, null=True)
+    sistolic_blood_pressure = models.IntegerField("Tensión Aterial Sistolica",
+                                                  blank=True, null=True)
     weight = models.FloatField("Peso", blank=True, null=True)
     #use cm
     size = models.IntegerField("Talla", blank=True, null=True)
     #modelo con esquemas de quimio.
-    chemotherapy_scheme = models.ForeignKey("ChemotherapySchema", verbose_name="Esquema de Quimioterapia")
+    chemotherapy_scheme = models.ForeignKey(
+        "ChemotherapySchema",
+        verbose_name="Esquema de Quimioterapia"
+    )
 
-
-    chemotherapy_risk = models.IntegerField("Riesgo de Quimioterapia", choices=CHEMO_RISK_CHOICES, blank=True, null=True)
-    dose_adjustment = models.CharField("Ajuste de Dosis", max_length=30, blank=True, null=True)
+    dose_adjustment = models.IntegerField(
+        "Ajuste de Dosis", max_length=30,
+        blank=True, null=True,
+        description="aplica a partir de seguna entrevista"
+    )
     discontinuation = models.BooleanField("Interrupción de Tratamiento")
-    observations = models.CharField("Observaciones", max_length=200, blank=True, null=True)
+    observations = models.CharField("Observaciones",
+                                    max_length=200, blank=True, null=True)
 
     def __unicode__(self):
         return self.date
