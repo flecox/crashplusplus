@@ -12,11 +12,11 @@
   {% if inline_admin_form.form.non_field_errors %}{{ inline_admin_form.form.non_field_errors }}{% endif %}
   {% for fieldset in inline_admin_form %}
     {% include "admin/includes/fieldset.html" %}
+  {% endfor %}
   <div class="result-button" style="padding: 2px; text-align: center; background-color: #edd;">
   <input type="submit" value="Calcular Riesgos de Toxicidad" name="calculate" class="calculate-medic" style="padding: 10px;
 font-weight: bold;"/>
   </div>
-  {% endfor %}
   {% if inline_admin_form.has_auto_field %}{{ inline_admin_form.pk_field.field }}{% endif %}
   {{ inline_admin_form.fk_field.field }}
 </div>{% endfor %}

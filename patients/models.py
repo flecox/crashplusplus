@@ -118,6 +118,42 @@ class MedicalInterview(models.Model):
     N_COM_CAT_CHOICES = [(i, i) for i in range(1, 7)]
     CIRS_G_SEV_CHOICES = [(i, i) for i in range(0, 14)]
     CHEMO_RISK_CHOICES = [(i, i) for i in range(0, 8)]
+    USE_PHONE_CHOICES = (
+        (3, "Sin ayuda"),
+        (2, "Con cierta ayuda"),
+        (1, "Es completamente incapaz")
+    )
+
+    EATING_CHOICES = (
+        (0, "Disminución severa"),
+        (1, "Disminución moderada"),
+        (2, "No ha disminuido"),
+    )
+
+    LOST_WEIGHT_CHOICES = (
+        (0, "> 3kg"),
+        (1, "No sabe"),
+        (2, "Entre 1 y 3 kh"),
+        (3, "No ha perdido peso"),
+    )
+
+    MOVILITY_CHOICES =  (
+        (0, "Permanece en cama"),
+        (1, "Capaz de salir de la cama o silla pero no fuera de la casa"),
+        (2, "Sale de la casa"),
+    )
+
+    STRESS_CHOICES = (
+        (0, 'Si'),
+        (1, 'No'),
+    )
+
+    NEUROLOGIC_CHOICES = (
+        (0, "Demecia severa o depresión"),
+        (1, "Demecia leve"),
+        (2, "Sin problemas")
+    )
+
 
     #fields
     patient = models.ForeignKey('Patient', related_name='medical_interviews')
@@ -135,17 +171,82 @@ class MedicalInterview(models.Model):
                                             null=True)
     current_treatment_type = models.IntegerField("Tipo de Tratamiento Actual",
                                                  choices=TREATMENT_TYPE_CHOICE)
-    aivd = models.IntegerField("Aivd", choices=AIVD_CHOICES, blank=True,
-                               null=True)
+
+
+    #aivd
+    can_use_phone = models.IntegerField("Puede usar el teléfono",
+                                        choices=USE_PHONE_CHOICES, blank=True,
+                                        null=True)
+
+    can_walk = models.IntegerField(
+        "¿Puede desplazarse a otros lugares caminando?",
+        choices=USE_PHONE_CHOICES, blank=True, null=True
+    )
+
+    can_shop = models.IntegerField(
+        "¿Puede ir de compras?",
+        choices=USE_PHONE_CHOICES, blank=True, null=True
+    )
+
+    can_cook = models.IntegerField("¿Puede preparar su comida?",
+        choices=USE_PHONE_CHOICES, blank=True, null=True
+    )
+
+    can_do_home_work = models.IntegerField("¿Puede hacer las tareas del hogar?",
+        choices=USE_PHONE_CHOICES, blank=True, null=True
+    )
+
+    can_do_manual_work = models.IntegerField("¿Puede hacer tareas manuales?",
+        choices=USE_PHONE_CHOICES, blank=True, null=True
+    )
+
+    can_self_sanitize = models.IntegerField("¿Puede higienizarse?",
+        choices=USE_PHONE_CHOICES, blank=True, null=True
+    )
+
+    taking_medication = models.BooleanField("¿Toma alguna medicación?")
+
+    can_take_medication = models.IntegerField("¿Puede tomar su medicación?",
+        choices=USE_PHONE_CHOICES, blank=True, null=True
+    )
+
+    can_manage_money = models.IntegerField("¿Puede manejar su dinero?",
+        choices=USE_PHONE_CHOICES, blank=True, null=True
+    )
+
+
+    #mna
+    stopped_eating = models.IntegerField("¿Ha reducido la ingesta  de alimentos" +
+         " en los ultimos  3 meses debido  a disminución del apetito, problemas" +
+         " digestivos, dificultades para masticar o tragar alimentos?",
+        choices=EATING_CHOICES, blank=True, null=True
+    )
+
+    lost_weight = models.IntegerField("Perdida de peso en los ultimos 3 meses",
+        choices=LOST_WEIGHT_CHOICES, blank=True, null=True
+    )
+
+    movility = models.IntegerField("Movilidad",
+        choices=MOVILITY_CHOICES, blank=True, null=True
+    )
+
+    had_stress = models.IntegerField("¿Ha sufrido stress psicologico o enfermedad aguda en los ultimos 3 meses?",
+        choices=MOVILITY_CHOICES, blank=True, null=True
+    )
+
+    neorologic_issues = models.IntegerField("Problemas neuropsicologicos",
+        choices=MOVILITY_CHOICES, blank=True, null=True
+    )
+
+
+
     mmt = models.IntegerField("Mmt", choices=AIVD_CHOICES, blank=True,
                               null=True)
 
-    mna = models.IntegerField("Mna", choices=MNA_CHOICES, blank=True,
-                              null=True)
     #1,2,3 y 6!!!!
     number_comorbidity_categories = models.IntegerField(
         "N° de categorias de comorbilidades",
-        choices=N_COM_CAT_CHOICES, blank=True, null=True
+        blank=True, null=True
     )
 
     cirs_g_index = models.FloatField("Indice Cirs-g", blank=True, null=True)
@@ -172,7 +273,7 @@ class MedicalInterview(models.Model):
     dose_adjustment = models.IntegerField(
         "Ajuste de Dosis", max_length=30,
         blank=True, null=True,
-        description="aplica a partir de seguna entrevista"
+        help_text="aplica a partir de seguna entrevista"
     )
     discontinuation = models.BooleanField("Interrupción de Tratamiento")
     observations = models.CharField("Observaciones",

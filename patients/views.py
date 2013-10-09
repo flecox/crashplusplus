@@ -14,9 +14,9 @@ class DummyUrlConf(object):
 def redirect(request):
     #admin.site.urls
     if hasattr(request.user, 'medic') and request.user.medic:
-        redirect = "patients/patient/"
+        redirect = "patients/index/"
         if 'patients' in request.path:
-            redirect = "patient/"
+            redirect = "index/"
         return HttpResponseRedirect(redirect)
     else:
         urlconf = DummyUrlConf()
@@ -71,3 +71,8 @@ def medic_calculation(request):
     indice_masa_corporal = round(peso/float(math.pow(talla,2)), 2)
     return render(request, "patients/calculation.html", {'non_h_tox': non_hematological_tox,
         'h_toc': hematological_tox, 'sup_corp': superficie_corporal, 'imc_d': indice_masa_corporal})
+
+
+def app_index(request):
+    return render(request, "patients/app_index.html",{})
+

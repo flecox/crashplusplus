@@ -18,19 +18,30 @@ class MedicalInterviewAdmin(admin.StackedInline):
     model = MedicalInterview
     #form = MedicalForm
     extra = 0
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ('date', ),
-    #     }),
-    #     ("interview Data", {'fields': ('performance_status', 'cie_10', 'initial_stage',
-    #         'current_stage', 'bone_compromised', 'prior_chemotherapies',
-    #         'current_treatment_type', 'aivd', 'mmt', 'mna',
-    #         'number_comorbidity_categories', 'cirs_g_index', 'cirs_g_severity_3',
-    #         'falls', 'usual_medication', 'ldh', 'diatolic_blood_pressure',
-    #         'weight', 'size', 'chemotherapy_scheme', 'chemotherapy_risk',
-    #         'dose_adjustment', 'discontinuation', 'observations'),
-    #         'classes': ("collapse",)})
-    # )
+    fieldsets = (
+        (None, {
+            'fields': ('date', ),
+        }),
+        ("interview Data", {'fields': ('weight', 'size',
+            'performance_status', 'cie_10', 'stage',
+            'bone_compromised', 'prior_chemotherapies',
+            'current_treatment_type', 'mmt',
+            'number_comorbidity_categories', 'cirs_g_index', 'cirs_g_severity_3',
+            'falls', 'usual_medication', 'ldh', 'diatolic_blood_pressure',
+            'sistolic_blood_pressure',
+            'chemotherapy_scheme', 'dose_adjustment', 'discontinuation', 'observations'),
+        }),
+        ("Escala de Actividades Instrumentales de la Vida Diaria",{'fields':(
+            'can_use_phone', 'can_walk', 'can_shop', 'can_cook', 'can_do_home_work',
+            'can_do_manual_work', 'can_self_sanitize', 'taking_medication',
+            'can_take_medication', 'can_manage_money'),
+            'classes': ('collapse',)
+        }),
+        ("Mini nutritional Assessment (MNA)", {"fields": ('stopped_eating', 'lost_weight', 'movility',
+            'had_stress', 'neorologic_issues'),
+            'classes': ('collapse',)
+        })
+    )
 
     # def get_readonly_fields(self, request, obj=None):
     #     if 'edit' not in request.GET and len(self.queryset(request)) > 0:
