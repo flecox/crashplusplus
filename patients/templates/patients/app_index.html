@@ -1,0 +1,72 @@
+{% extends "admin/index.html" %}
+{% load i18n %}
+{% block extrastyle %}
+<style>
+.dashboard #content {
+    width: 100%;
+    text-align: center;
+}
+
+.addPacient {
+    font-size: 17px;
+
+}
+
+.addPacient{
+    border:1px solid #d7dada;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;font-size:17px;
+    font-family:arial, helvetica, sans-serif;
+    padding: 10px 20px 10px 20px;
+    margin-top: 20px;
+    text-decoration:none;
+    display:inline-block;font-weight:bold;
+    background-color: #f4f5f5;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f5f5), to(#dfdddd));
+    background-image: -webkit-linear-gradient(top, #f4f5f5, #dfdddd);
+    background-image: -moz-linear-gradient(top, #f4f5f5, #dfdddd);
+    background-image: -ms-linear-gradient(top, #f4f5f5, #dfdddd);
+    background-image: -o-linear-gradient(top, #f4f5f5, #dfdddd);
+    background-image: linear-gradient(to bottom, #f4f5f5, #dfdddd);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#f4f5f5, endColorstr=#dfdddd);
+}
+
+.addPacient:hover{
+    border:1px solid #bfc4c4;
+    background-color: #d9dddd;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#d9dddd), to(#c6c3c3));
+    background-image: -webkit-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -moz-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -ms-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: -o-linear-gradient(top, #d9dddd, #c6c3c3);
+    background-image: linear-gradient(to bottom, #d9dddd, #c6c3c3);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#d9dddd, endColorstr=#c6c3c3);
+}
+</style>
+{% endblock %}
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="/admin/patients/index">Inicio</a>
+&rsaquo; Pacientes
+</div>
+{% endblock %}
+{% block content %}
+
+<div id="content-main">
+
+<form id="changelist-search" action="/admin/patients/patient/" method="get">
+<div style="text-align: center;"><!-- DIV needed for valid HTML -->
+<label for="searchbar">
+    <img src="/static/admin/img/icon_searchbox.png" alt="Search" />
+</label>
+<input type="text" size="40" name="q" value="" id="searchbar" />
+<input type="submit" value="Buscar" />
+</div>
+</form>
+<div>
+<a href="/admin/patients/patient/add/?edit=1" class="addlink addPacient">
+                Añadir Paciente
+</a>
+</div>
+</div>
+{% endblock %}
+{% block sidebar %}{% endblock %}
