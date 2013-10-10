@@ -1,16 +1,32 @@
 <div class="calculation-modal">
 	<table>
 		<tr>
-			<td>Riesgo Hematológico</td><td>{{h_toc}}</td>
+			<td><b>Indice Masa Corporal</b></td><td>{{imc_d}}kg/m2</td>
 		</tr>
 		<tr>
-			<td>Riesgo No Hematológico</td><td>{{non_h_tox}}</td>
+			<td><b>Superficie Corporal</b></td><td>{{sup_corp}}m²</td>
 		</tr>
 		<tr>
-			<td>Indice Masa Corporal</td><td>{{imc_d}}</td>
+			<td><b>AIVD</b></td><td>{{aivd}}</td>
 		</tr>
 		<tr>
-			<td>Superficie Corporal</td><td>{{sup_corp}}</td>
+			<td><b>MNA</b></td><td>{{mna}}</td>
 		</tr>
+		<tr>
+			<td><b>MMT</b></td><td>{{mmt}}</td>
+		</tr>
+		<tr>
+			<td><b>Riesgo Hematológico</b></td><td>{{h_toc}} <span class="hem-{{h_toc}}">{{hem_str}}</span></td>
+		</tr>
+		<tr>
+			<td><b>Riesgo No Hematológico</b></td><td>{{non_h_tox}}
+			<span class="non-hem-{{non_h_tox}}">{{non_hem_str}} </span></td>
+		</tr>
+		<tr>
+			<td><b>Riesgo Combinado</b></td><td>{{comb_h_tox}}
+			<span class="comb-{{non_h_tox}}">{{comb_hem_str}} </span>
+			</td>
+		</tr>
+
 	</table>
 </div>

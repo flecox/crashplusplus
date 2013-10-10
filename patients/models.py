@@ -72,14 +72,19 @@ class Patient(models.Model):
 
     name = models.CharField("Nombre", max_length=100, )
     last_name = models.CharField("Apellido", max_length=100)
-    born_date = models.DateField('Fecha Nacimiento')
+    born_date = models.DateField('Fecha Nacimiento', blank=True,
+                                            null=True)
     genre = models.CharField("Genero", max_length=2,
-                             choices=GENRE_CHOICES)
+                             choices=GENRE_CHOICES, blank=True,
+                                            null=True)
     dni = models.CharField(max_length=8)
-    clinical_history = models.CharField("Historia Clinica", max_length=20)
-    phone = models.CharField("Telefono", max_length=20)
+    clinical_history = models.CharField("Historia Clinica", max_length=20, blank=True,
+                                            null=True)
+    phone = models.CharField("Telefono", max_length=20, blank=True,
+                                            null=True)
     study_level = models.IntegerField("Nivel de estudio",
-                                      choices=STUDY_LEVEL_CHOICES)
+                                      choices=STUDY_LEVEL_CHOICES, blank=True,
+                                            null=True)
     social_support = models.BooleanField("Apoyo Social")
 
     class Meta:
@@ -157,20 +162,22 @@ class MedicalInterview(models.Model):
 
     #fields
     patient = models.ForeignKey('Patient', related_name='medical_interviews')
-    medico = models.ForeignKey('Medic', verbose_name="Medico")
+    medico = models.ForeignKey(User, verbose_name="Medico")
     date = models.DateField('Fecha')
 
     performance_status = models.IntegerField("Performance Status",
                                              choices=PF_CHOICES,
                                              blank=True, null=True)
-    cie_10 = models.ForeignKey("Cie10")
-    stage = models.IntegerField("Estadio Actual", choices=CANCER_STAGE_CHOICE)
+    cie_10 = models.ForeignKey("Cie10", blank=True, null=True)
+    stage = models.IntegerField("Estadio Actual", choices=CANCER_STAGE_CHOICE,
+        blank=True, null=True)
     bone_compromised = models.BooleanField("Compromiso Óseo")
     prior_chemotherapies = models.CharField("Quimioterapias Anteriores",
                                             max_length=10, blank=True,
                                             null=True)
     current_treatment_type = models.IntegerField("Tipo de Tratamiento Actual",
-                                                 choices=TREATMENT_TYPE_CHOICE)
+                                                 choices=TREATMENT_TYPE_CHOICE,
+                                                 blank=True, null=True)
 
 
     #aivd
@@ -231,17 +238,58 @@ class MedicalInterview(models.Model):
     )
 
     had_stress = models.IntegerField("¿Ha sufrido stress psicologico o enfermedad aguda en los ultimos 3 meses?",
-        choices=MOVILITY_CHOICES, blank=True, null=True
+        choices=STRESS_CHOICES, blank=True, null=True
     )
 
     neorologic_issues = models.IntegerField("Problemas neuropsicologicos",
-        choices=MOVILITY_CHOICES, blank=True, null=True
+        choices=NEUROLOGIC_CHOICES, blank=True, null=True
     )
 
+    #mmt
+    orientation_date = models.IntegerField("¿En que número y día de la semana, mes, año y estación estamos?",
+        choices=[(i, i) for i in range(0, 6)], blank=True, null=True
+    )
 
+    orientation_place = models.IntegerField("¿Dónde esta ud ahora? (lugar, hospital, ciudad, provincia, país)",
+        choices=[(i, i) for i in range(0, 6)], blank=True, null=True
+    )
 
-    mmt = models.IntegerField("Mmt", choices=AIVD_CHOICES, blank=True,
-                              null=True)
+    record = models.IntegerField("Nombrar tres objetos lentamente. Ej: casa, zapato, papel",
+        choices=[(i, i) for i in range(0, 4)], blank=True, null=True
+    )
+
+    atention_calculus = models.IntegerField("múltiplos de 7 de atrás hacia adelante: 93, 86, 79, 72, 65 y deletrear de atras hacia adelante la palabra mundo",
+        choices=[(i, i) for i in range(0, 6)], blank=True, null=True
+    )
+
+    memory = models.IntegerField("Repetir los objetos nombrados anteriormente",
+        choices=[(i, i) for i in range(0, 4)], blank=True, null=True
+    )
+
+    lenguage_names = models.IntegerField("Mostrar un lápiz  y un reloj, preguntar sus respectivos nombres",
+        choices=[(i, i) for i in range(0, 3)], blank=True, null=True
+    )
+
+    lenguage_repeat = models.IntegerField("Repetir: tres perros en un trigal",
+        choices=[(i, i) for i in range(0, 2)], blank=True, null=True
+    )
+
+    lenguage_indicate = models.IntegerField("Indicar: tome un papel con la mano derecha, doblelo a la mitad y pongalo en el suelo",
+        choices=[(i, i) for i in range(0, 4)], blank=True, null=True
+    )
+
+    lenguage_obey = models.IntegerField("Lea y obedezca lo siguiente: -CIERRE LOS OJOS-",
+        choices=[(i, i) for i in range(0, 2)], blank=True, null=True
+    )
+
+    lenguage_write = models.IntegerField("Escriba una oración",
+        choices=[(i, i) for i in range(0, 2)], blank=True, null=True
+    )
+
+    lenguage_draw = models.IntegerField("Copia de dibujo",
+        choices=[(i, i) for i in range(0, 2)], blank=True, null=True
+    )
+
 
     #1,2,3 y 6!!!!
     number_comorbidity_categories = models.IntegerField(
@@ -267,7 +315,7 @@ class MedicalInterview(models.Model):
     #modelo con esquemas de quimio.
     chemotherapy_scheme = models.ForeignKey(
         "ChemotherapySchema",
-        verbose_name="Esquema de Quimioterapia"
+        verbose_name="Esquema de Quimioterapia", blank=True, null=True
     )
 
     dose_adjustment = models.IntegerField(

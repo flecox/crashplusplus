@@ -31,8 +31,8 @@ class Command(NoArgsCommand):
         ChemotherapySchema(title='Xelox', risk=1).save()
 
 
-        ChemotherapySchema(title='5fu/leucovorina (Roswell-park).save()', risk=2).save()
-        ChemotherapySchema(title='5fu/leucovorina(Mayo).save()', risk=2).save()
+        ChemotherapySchema(title='5fu/leucovorina (Roswell-park)', risk=2).save()
+        ChemotherapySchema(title='5fu/leucovorina(Mayo)', risk=2).save()
         ChemotherapySchema(title='5-fu/lv + bevacizumab', risk=2).save()
         ChemotherapySchema(title='CAF', risk=2).save()
         ChemotherapySchema(title='Carboplatino/docetaxel 75 / 75', risk=2).save()
@@ -66,4 +66,5 @@ class Command(NoArgsCommand):
             #dont use head
             data.next()
             for line in data:
-                Cie10(value=line[0]).save()
+                if line[0].startswith("C") or line[0].startswith("D"):
+                    Cie10(value=line[0]).save()

@@ -22,10 +22,10 @@ class MedicalInterviewAdmin(admin.StackedInline):
         (None, {
             'fields': ('date', ),
         }),
-        ("interview Data", {'fields': ('weight', 'size',
+        (None, {'fields': ('weight', 'size',
             'performance_status', 'cie_10', 'stage',
             'bone_compromised', 'prior_chemotherapies',
-            'current_treatment_type', 'mmt',
+            'current_treatment_type',
             'number_comorbidity_categories', 'cirs_g_index', 'cirs_g_severity_3',
             'falls', 'usual_medication', 'ldh', 'diatolic_blood_pressure',
             'sistolic_blood_pressure',
@@ -37,7 +37,12 @@ class MedicalInterviewAdmin(admin.StackedInline):
             'can_take_medication', 'can_manage_money'),
             'classes': ('collapse',)
         }),
-        ("Mini nutritional Assessment (MNA)", {"fields": ('stopped_eating', 'lost_weight', 'movility',
+        ("Mini Menta State Examination", {"fields": ('orientation_date', 'orientation_place', 'record',
+            'atention_calculus', 'memory', 'lenguage_names', 'lenguage_repeat', 'lenguage_indicate',
+            'lenguage_obey', 'lenguage_write', 'lenguage_draw'),
+            'classes': ('collapse',)
+        }),
+        ("Mini Nutritional Assessment (MNA)", {"fields": ('stopped_eating', 'lost_weight', 'movility',
             'had_stress', 'neorologic_issues'),
             'classes': ('collapse',)
         })
@@ -68,11 +73,11 @@ class PatientAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Patient Data', {
-            'fields': (('name', 'last_name'), ('dni', 'clinical_history'),
+            'fields': (('clinical_history','dni'), ('name', 'last_name'),
                         'born_date', 'genre', 'phone' ),
         }),
         (None, {
-            'fields': (('study_level', 'social_support'), ),
+            'fields': ('social_support', 'study_level'),
         })
     )
 
@@ -95,5 +100,12 @@ class PatientAdmin(admin.ModelAdmin):
             extra_context['show_save_add'] = False
         return super(PatientAdmin, self).change_view(request, object_id,
             form_url, extra_context=extra_context)
+
+    def save_formset(self, request, form, formset, change):
+        instances = formset.save(commit=False)
+        for instance in instances:
+            instance.medico = request.user
+            instance.save()
+        formset.save_m2m()
 
 admin.site.register(Patient, PatientAdmin)
