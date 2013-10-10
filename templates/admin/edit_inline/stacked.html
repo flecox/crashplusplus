@@ -1,5 +1,12 @@
 {% load i18n admin_static %}
 <div class="inline-group" id="{{ inline_admin_formset.formset.prefix }}-group">
+
+<style>
+  .inline-related .collapse label {
+    width: 68%;
+  }
+
+</style>
   <h2>{{ inline_admin_formset.opts.verbose_name_plural|title }}</h2>
 {{ inline_admin_formset.formset.management_form }}
 {{ inline_admin_formset.formset.non_form_errors }}
@@ -30,83 +37,12 @@ font-weight: bold;"/>
 
 <script type="text/javascript">
 (function($) {
-  $(".modal-container").easyModal();
-  $(".close-modal").click(function() {
-    $(".modal-container").trigger('closeModal');
-  });
-  $(".calculate-medic").click(function(e) {
-      e.preventDefault();
-      var parent = $(this).parent().parent();
-      var splitted = parent.attr("id").split("-");
-      index = splitted[splitted.length -1];
-      var id = "id_medical_interviews-" + index + "-"
-      var attr_list = ["performance_status", 'ldh',
-        'weight', 'size', 'diatolic_blood_pressure', 'chemotherapy_scheme', 'can_use_phone', 'can_walk', 'can_shop', 'can_cook', 'can_do_home_work', 'can_do_manual_work', 'can_self_sanitize', 'taking_medication', 'can_take_medication', 'can_manage_money',
-        'orientation_date', 'orientation_place', 'record', 'atention_calculus', 'memory', 'lenguage_names', 'lenguage_repeat', 'lenguage_indicate',
-            'lenguage_obey', 'lenguage_write', 'lenguage_draw', 'stopped_eating', 'lost_weight', 'movility', 'had_stress', 'neorologic_issues'];
-      var integers = ['ldh', 'diatolic_blood_pressure', 'size']
-      var floats =  ['weight']
-      var data ={}
-
-      var i = 0;
-      var can_send = true;
-
-      for(i=0; i< attr_list.length; i++) {
-        var attr = attr_list[i];
-        var field = $("#"+id + attr);
-        data[attr] = field.val();
-        if(!data[attr]) {
-          console.log(attr);
-          var container = field.parent().parent();
-          container.prepend("<ul class='errorlist'><li>Este campo es obligatorio</li></ul>");
-          var can_send = false;
-          $("#fieldsetcollapser0", parent).text(gettext("Hide")).closest("fieldset").removeClass("collapsed").trigger("show.fieldset", [$("#fieldsetcollapser0", parent).attr("id")]);
-          $("#fieldsetcollapser1", parent).text(gettext("Hide")).closest("fieldset").removeClass("collapsed").trigger("show.fieldset", [$("#fieldsetcollapser0", parent).attr("id")]);
-          $("#fieldsetcollapser2", parent).text(gettext("Hide")).closest("fieldset").removeClass("collapsed").trigger("show.fieldset", [$("#fieldsetcollapser0", parent).attr("id")]);
-
-        } else if (integers.indexOf(attr) !== -1) {
-          var intRegex = /^\d+$/;
-          if(!intRegex.test(data[attr])) {
-              var container = field.parent().parent();
-            container.prepend("<ul class='errorlist'><li>Ingrese un Numero</li></ul>");
-            var can_send = false;
-          }
-        } else if (floats.indexOf(attr) !== -1) {
-          var floatRegex = /^[-+]?([0-9]*\.[0-9]+|[0-9]+)$/;
-          if(!floatRegex.test(data[attr])) {
-              var container = field.parent().parent();
-            container.prepend("<ul class='errorlist'><li>Ingrese un Numero Real</li></ul>");
-            var can_send = false;
-          }
-        }
-      }
-
-
-      if(can_send){
-        $.ajax({
-          url: '/admin/patients/results/',
-          type: 'GET',
-          async: false,
-          data: data,
-          success: function(result, e) {
-            $(".modal-container .modal").html(result);
-            $(".modal-container").trigger('openModal');
-          }
-        });
-      } else {
-        $(".modal-container .modal").html("Error en algunos campos");
-          $(".modal-container").trigger('openModal');
-      }
-      return false;
-  })
-
-
   $("#{{ inline_admin_formset.formset.prefix }}-group .inline-related").stackedFormset({
     prefix: '{{ inline_admin_formset.formset.prefix }}',
     adminStaticPrefix: '{% static "admin/" %}',
     deleteText: "{% trans "Remove" %}",
-    addText: "{% blocktrans with verbose_name=inline_admin_formset.opts.verbose_name|title %}Add another {{ verbose_name }}{% endblocktrans %}"
+    addText: "{% blocktrans with verbose_name=inline_admin_formset.opts.verbose_name|title %}Agregar otra {{ verbose_name }}{% endblocktrans %}"
   });
 })(django.jQuery);
 </script>
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="/static/patients/js/results.js"></script>

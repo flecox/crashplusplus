@@ -85,7 +85,7 @@ class Patient(models.Model):
     study_level = models.IntegerField("Nivel de estudio",
                                       choices=STUDY_LEVEL_CHOICES, blank=True,
                                             null=True)
-    social_support = models.BooleanField("Apoyo Social")
+    social_support = models.BooleanField("Posee Apoyo Social")
 
     class Meta:
         verbose_name = "Paciente"
@@ -154,8 +154,8 @@ class MedicalInterview(models.Model):
     )
 
     NEUROLOGIC_CHOICES = (
-        (0, "Demecia severa o depresión"),
-        (1, "Demecia leve"),
+        (0, "Demencia severa o depresión"),
+        (1, "Demencia leve"),
         (2, "Sin problemas")
     )
 
@@ -171,9 +171,12 @@ class MedicalInterview(models.Model):
     cie_10 = models.ForeignKey("Cie10", blank=True, null=True)
     stage = models.IntegerField("Estadio Actual", choices=CANCER_STAGE_CHOICE,
         blank=True, null=True)
+    stage_observations = models.CharField("Observaciones del estadio",
+                                            max_length=100, blank=True,
+                                            null=True)
     bone_compromised = models.BooleanField("Compromiso Óseo")
     prior_chemotherapies = models.CharField("Quimioterapias Anteriores",
-                                            max_length=10, blank=True,
+                                            max_length=100, blank=True,
                                             null=True)
     current_treatment_type = models.IntegerField("Tipo de Tratamiento Actual",
                                                  choices=TREATMENT_TYPE_CHOICE,
@@ -181,7 +184,7 @@ class MedicalInterview(models.Model):
 
 
     #aivd
-    can_use_phone = models.IntegerField("Puede usar el teléfono",
+    can_use_phone = models.IntegerField("¿Puede usar el teléfono?",
                                         choices=USE_PHONE_CHOICES, blank=True,
                                         null=True)
 
@@ -258,7 +261,7 @@ class MedicalInterview(models.Model):
         choices=[(i, i) for i in range(0, 4)], blank=True, null=True
     )
 
-    atention_calculus = models.IntegerField("múltiplos de 7 de atrás hacia adelante: 93, 86, 79, 72, 65 y deletrear de atras hacia adelante la palabra mundo",
+    atention_calculus = models.IntegerField("múltiplos de 7 de atrás hacia adelante: 93, 86, 79, 72, 65 y deletrear de atrás hacia adelante la palabra mundo",
         choices=[(i, i) for i in range(0, 6)], blank=True, null=True
     )
 
@@ -293,7 +296,7 @@ class MedicalInterview(models.Model):
 
     #1,2,3 y 6!!!!
     number_comorbidity_categories = models.IntegerField(
-        "N° de categorias de comorbilidades",
+        "N° de comorbilidades",
         blank=True, null=True
     )
 

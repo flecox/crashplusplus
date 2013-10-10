@@ -1,17 +1,10 @@
 from django.contrib import admin
 from patients.models import Patient, MedicalInterview, Medic
-from eav.admin import BaseEntityInline
-from eav.forms import BaseDynamicEntityForm
 
 class MedicAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(Medic, MedicAdmin)
-
-
-class MedicalForm(BaseDynamicEntityForm):
-    class Meta:
-        model = MedicalInterview
 
 
 class MedicalInterviewAdmin(admin.StackedInline):
@@ -22,14 +15,15 @@ class MedicalInterviewAdmin(admin.StackedInline):
         (None, {
             'fields': ('date', ),
         }),
-        (None, {'fields': ('weight', 'size',
-            'performance_status', 'cie_10', 'stage',
-            'bone_compromised', 'prior_chemotherapies',
-            'current_treatment_type',
-            'number_comorbidity_categories', 'cirs_g_index', 'cirs_g_severity_3',
-            'falls', 'usual_medication', 'ldh', 'diatolic_blood_pressure',
-            'sistolic_blood_pressure',
-            'chemotherapy_scheme', 'dose_adjustment', 'discontinuation', 'observations'),
+        (None, {'fields': (
+            ('cie_10', 'stage', 'stage_observations', 'bone_compromised',),
+            'prior_chemotherapies',
+            ('number_comorbidity_categories', 'usual_medication'),
+            ('cirs_g_index', 'cirs_g_severity_3'),
+            'current_treatment_type',)}),
+        (None, {'fields':(
+            'performance_status',
+            'falls')
         }),
         ("Escala de Actividades Instrumentales de la Vida Diaria",{'fields':(
             'can_use_phone', 'can_walk', 'can_shop', 'can_cook', 'can_do_home_work',
@@ -37,15 +31,25 @@ class MedicalInterviewAdmin(admin.StackedInline):
             'can_take_medication', 'can_manage_money'),
             'classes': ('collapse',)
         }),
-        ("Mini Menta State Examination", {"fields": ('orientation_date', 'orientation_place', 'record',
+        ("Mini Mental State Examination", {"fields": ('orientation_date', 'orientation_place', 'record',
             'atention_calculus', 'memory', 'lenguage_names', 'lenguage_repeat', 'lenguage_indicate',
             'lenguage_obey', 'lenguage_write', 'lenguage_draw'),
             'classes': ('collapse',)
         }),
+        (None, {'fields':(('weight', 'size'),
+            ('diatolic_blood_pressure','sistolic_blood_pressure'),
+            'ldh')
+        }),
         ("Mini Nutritional Assessment (MNA)", {"fields": ('stopped_eating', 'lost_weight', 'movility',
             'had_stress', 'neorologic_issues'),
             'classes': ('collapse',)
-        })
+        }),
+        (None, {'fields':
+            ('chemotherapy_scheme', 'dose_adjustment', 'discontinuation', 'observations'),
+        }),
+
+
+
     )
 
     # def get_readonly_fields(self, request, obj=None):
@@ -65,6 +69,7 @@ class PatientAdmin(admin.ModelAdmin):
     class Media:
         js = (
             "/static/patients/js/jquery.easyModal.js",
+            "/static/patients/js/results.js"
         )
 
     inlines = [
@@ -74,11 +79,8 @@ class PatientAdmin(admin.ModelAdmin):
     fieldsets = (
         ('Patient Data', {
             'fields': (('clinical_history','dni'), ('name', 'last_name'),
-                        'born_date', 'genre', 'phone' ),
+                        'born_date', 'genre', 'phone', 'study_level', 'social_support' ),
         }),
-        (None, {
-            'fields': ('social_support', 'study_level'),
-        })
     )
 
     search_fields = ['name', 'last_name','dni', 'clinical_history']
