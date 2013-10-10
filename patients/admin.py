@@ -1,6 +1,7 @@
 from django.contrib import admin
 from patients.models import Patient, MedicalInterview, Medic
 
+
 class MedicAdmin(admin.ModelAdmin):
     pass
 
@@ -47,18 +48,7 @@ class MedicalInterviewAdmin(admin.StackedInline):
         (None, {'fields':
             ('chemotherapy_scheme', 'dose_adjustment', 'discontinuation', 'observations'),
         }),
-
-
-
     )
-
-    # def get_readonly_fields(self, request, obj=None):
-    #     if 'edit' not in request.GET and len(self.queryset(request)) > 0:
-    #         return ('date',)
-    #     else:
-    #         return self.readonly_fields
-
-#admin.site.register(MedicalInterview, MedicalInterviewAdmin)
 
 
 class PatientAdmin(admin.ModelAdmin):
@@ -85,12 +75,14 @@ class PatientAdmin(admin.ModelAdmin):
 
     search_fields = ['name', 'last_name','dni', 'clinical_history']
 
+
     def get_readonly_fields(self, request, obj=None):
         if 'edit' not in request.GET:
             return ('name', 'last_name', 'born_date', 'genre', 'dni',
                     'clinical_history', 'phone', 'study_level', 'social_support')
         else:
             return self.readonly_fields
+
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
         extra_context = extra_context or {}
@@ -102,6 +94,7 @@ class PatientAdmin(admin.ModelAdmin):
             extra_context['show_save_add'] = False
         return super(PatientAdmin, self).change_view(request, object_id,
             form_url, extra_context=extra_context)
+
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
