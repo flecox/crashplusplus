@@ -7,6 +7,10 @@ from vocabularies import *
 
 
 class Cie10(models.Model):
+    """
+    This model represnt the cie-10 medical clasification for illness
+    http://es.wikipedia.org/wiki/CIE-10
+    """
     value = models.CharField("Valor", max_length=10)
     description = models.CharField("Descripción", max_length=100)
 
@@ -19,6 +23,8 @@ class Cie10(models.Model):
 
 
 class ChemotherapySchema(models.Model):
+    """The chemotherapy scheme and its asososieted risk.
+    """
     title = models.CharField("Nombre", max_length=100)
     risk = models.IntegerField("Riesgo")
 
@@ -31,6 +37,9 @@ class ChemotherapySchema(models.Model):
 
 
 class Medic(models.Model):
+    """
+    Represents a Medic user.
+    """
     user = models.OneToOneField(User)
     medic_id_number = models.CharField(max_length=100)
 
@@ -60,18 +69,18 @@ class Patient(models.Model):
     name = models.CharField("Nombre", max_length=100, )
     last_name = models.CharField("Apellido", max_length=100)
     born_date = models.DateField('Fecha Nacimiento', blank=True,
-                                            null=True)
+                                 null=True)
     genre = models.CharField("Genero", max_length=2,
                              choices=GENRE_CHOICES, blank=True,
-                                            null=True)
+                             null=True)
     dni = models.CharField(max_length=8)
-    clinical_history = models.CharField("Historia Clinica", max_length=20, blank=True,
-                                            null=True)
+    clinical_history = models.CharField("Historia Clinica", max_length=20,
+                                        blank=True, null=True)
     phone = models.CharField("Telefono", max_length=20, blank=True,
-                                            null=True)
+                             null=True)
     study_level = models.IntegerField("Nivel de estudio",
                                       choices=STUDY_LEVEL_CHOICES, blank=True,
-                                            null=True)
+                                      null=True)
     social_support = models.BooleanField("Posee Apoyo Social")
 
     class Meta:
@@ -83,6 +92,11 @@ class Patient(models.Model):
 
 
 class MedicalInterview(models.Model):
+    """
+    This model represent a medical interview.. in the fuure we should
+    cut this big table in pieces..
+    some columns are only used in the second inteview ahead.
+    """
 
     #fields
     patient = models.ForeignKey('Patient', related_name='medical_interviews')
@@ -94,10 +108,10 @@ class MedicalInterview(models.Model):
                                              blank=True, null=True)
     cie_10 = models.ForeignKey("Cie10", blank=True, null=True)
     stage = models.IntegerField("Estadio Actual", choices=CANCER_STAGE_CHOICE,
-        blank=True, null=True)
+                                blank=True, null=True)
     stage_observations = models.CharField("Observaciones del estadio",
-                                            max_length=100, blank=True,
-                                            null=True)
+                                          max_length=100, blank=True,
+                                          null=True)
     bone_compromised = models.BooleanField("Compromiso Óseo")
     prior_chemotherapies = models.CharField("Quimioterapias Anteriores",
                                             max_length=100, blank=True,
@@ -105,7 +119,6 @@ class MedicalInterview(models.Model):
     current_treatment_type = models.IntegerField("Tipo de Tratamiento Actual",
                                                  choices=TREATMENT_TYPE_CHOICE,
                                                  blank=True, null=True)
-
 
     #aivd
     can_use_phone = models.IntegerField("¿Puede usar el teléfono?",
@@ -123,100 +136,117 @@ class MedicalInterview(models.Model):
     )
 
     can_cook = models.IntegerField("¿Puede preparar su comida?",
-        choices=USE_PHONE_CHOICES, blank=True, null=True
-    )
+                                   choices=USE_PHONE_CHOICES, blank=True,
+                                   null=True)
 
-    can_do_home_work = models.IntegerField("¿Puede hacer las tareas del hogar?",
-        choices=USE_PHONE_CHOICES, blank=True, null=True
+    can_do_home_work = models.IntegerField(
+        "¿Puede hacer las tareas del hogar?",
+        choices=USE_PHONE_CHOICES,
+        blank=True, null=True
     )
 
     can_do_manual_work = models.IntegerField("¿Puede hacer tareas manuales?",
-        choices=USE_PHONE_CHOICES, blank=True, null=True
-    )
+                                             choices=USE_PHONE_CHOICES,
+                                             blank=True, null=True)
 
     can_self_sanitize = models.IntegerField("¿Puede higienizarse?",
-        choices=USE_PHONE_CHOICES, blank=True, null=True
-    )
+                                            choices=USE_PHONE_CHOICES,
+                                            blank=True, null=True)
 
     taking_medication = models.BooleanField("¿Toma alguna medicación?")
 
     can_take_medication = models.IntegerField("¿Puede tomar su medicación?",
-        choices=USE_PHONE_CHOICES, blank=True, null=True
-    )
+                                              choices=USE_PHONE_CHOICES,
+                                              blank=True, null=True)
 
     can_manage_money = models.IntegerField("¿Puede manejar su dinero?",
-        choices=USE_PHONE_CHOICES, blank=True, null=True
-    )
-
+                                           choices=USE_PHONE_CHOICES,
+                                           blank=True, null=True)
 
     #mna
-    stopped_eating = models.IntegerField("¿Ha reducido la ingesta  de alimentos" +
-         " en los ultimos  3 meses debido  a disminución del apetito, problemas" +
-         " digestivos, dificultades para masticar o tragar alimentos?",
+    stopped_eating = models.IntegerField(
+        "¿Ha reducido la ingesta  de alimentos en los ultimos  3 meses"
+        " debido  a disminución del apetito, problemas digestivos, "
+        "dificultades para masticar o tragar alimentos?",
         choices=EATING_CHOICES, blank=True, null=True
     )
 
-    lost_weight = models.IntegerField("Perdida de peso en los ultimos 3 meses",
+    lost_weight = models.IntegerField(
+        "Perdida de peso en los ultimos 3 meses",
         choices=LOST_WEIGHT_CHOICES, blank=True, null=True
     )
 
-    movility = models.IntegerField("Movilidad",
-        choices=MOVILITY_CHOICES, blank=True, null=True
-    )
+    movility = models.IntegerField("Movilidad", choices=MOVILITY_CHOICES,
+                                   blank=True, null=True)
 
-    had_stress = models.IntegerField("¿Ha sufrido stress psicologico o enfermedad aguda en los ultimos 3 meses?",
+    had_stress = models.IntegerField(
+        "¿Ha sufrido stress psicologico o enfermedad aguda" +
+        " en los ultimos 3 meses?",
         choices=STRESS_CHOICES, blank=True, null=True
     )
 
-    neorologic_issues = models.IntegerField("Problemas neuropsicologicos",
+    neorologic_issues = models.IntegerField(
+        "Problemas neuropsicologicos",
         choices=NEUROLOGIC_CHOICES, blank=True, null=True
     )
 
     #mmt
-    orientation_date = models.IntegerField("¿En que número y día de la semana, mes, año y estación estamos?",
+    orientation_date = models.IntegerField(
+        "¿En que número y día de la semana, mes, año y estación estamos?",
         choices=[(i, i) for i in range(0, 6)], blank=True, null=True
     )
 
-    orientation_place = models.IntegerField("¿Dónde esta ud ahora? (lugar, hospital, ciudad, provincia, país)",
+    orientation_place = models.IntegerField(
+        "¿Dónde esta ud ahora? (lugar, hospital, ciudad, provincia, país)",
         choices=[(i, i) for i in range(0, 6)], blank=True, null=True
     )
 
-    record = models.IntegerField("Nombrar tres objetos lentamente. Ej: casa, zapato, papel",
+    record = models.IntegerField(
+        "Nombrar tres objetos lentamente. Ej: casa, zapato, papel",
         choices=[(i, i) for i in range(0, 4)], blank=True, null=True
     )
 
-    atention_calculus = models.IntegerField("múltiplos de 7 de atrás hacia adelante: 93, 86, 79, 72, 65 y deletrear de atrás hacia adelante la palabra mundo",
+    atention_calculus = models.IntegerField(
+        "múltiplos de 7 de atrás hacia adelante: 93, 86, 79, 72, 65 y" +
+        "deletrear de atrás hacia adelante la palabra mundo",
         choices=[(i, i) for i in range(0, 6)], blank=True, null=True
     )
 
-    memory = models.IntegerField("Repetir los objetos nombrados anteriormente",
+    memory = models.IntegerField(
+        "Repetir los objetos nombrados anteriormente",
         choices=[(i, i) for i in range(0, 4)], blank=True, null=True
     )
 
-    lenguage_names = models.IntegerField("Mostrar un lápiz  y un reloj, preguntar sus respectivos nombres",
+    lenguage_names = models.IntegerField(
+        "Mostrar un lápiz  y un reloj, preguntar sus respectivos nombres",
         choices=[(i, i) for i in range(0, 3)], blank=True, null=True
     )
 
-    lenguage_repeat = models.IntegerField("Repetir: tres perros en un trigal",
+    lenguage_repeat = models.IntegerField(
+        "Repetir: tres perros en un trigal",
         choices=[(i, i) for i in range(0, 2)], blank=True, null=True
     )
 
-    lenguage_indicate = models.IntegerField("Indicar: tome un papel con la mano derecha, doblelo a la mitad y pongalo en el suelo",
+    lenguage_indicate = models.IntegerField(
+        "Indicar: tome un papel con la mano derecha, doblelo a la mitad y" +
+        "pongalo en el suelo",
         choices=[(i, i) for i in range(0, 4)], blank=True, null=True
     )
 
-    lenguage_obey = models.IntegerField("Lea y obedezca lo siguiente: -CIERRE LOS OJOS-",
+    lenguage_obey = models.IntegerField(
+        "Lea y obedezca lo siguiente: -CIERRE LOS OJOS-",
         choices=[(i, i) for i in range(0, 2)], blank=True, null=True
     )
 
-    lenguage_write = models.IntegerField("Escriba una oración",
+    lenguage_write = models.IntegerField(
+        "Escriba una oración",
         choices=[(i, i) for i in range(0, 2)], blank=True, null=True
     )
 
-    lenguage_draw = models.IntegerField("Copia de dibujo",
+    lenguage_draw = models.IntegerField(
+        "Copia de dibujo",
         choices=[(i, i) for i in range(0, 2)], blank=True, null=True
     )
-
 
     #1,2,3 y 6!!!!
     number_comorbidity_categories = models.IntegerField(

@@ -10,7 +10,6 @@ admin.site.register(Medic, MedicAdmin)
 
 class MedicalInterviewAdmin(admin.StackedInline):
     model = MedicalInterview
-    #form = MedicalForm
     extra = 0
     fieldsets = (
         (None, {
@@ -22,36 +21,46 @@ class MedicalInterviewAdmin(admin.StackedInline):
             ('number_comorbidity_categories', 'usual_medication'),
             ('cirs_g_index', 'cirs_g_severity_3'),
             'current_treatment_type',)}),
-        (None, {'fields':(
+        (None, {'fields': (
             'performance_status',
             'falls')
         }),
-        ("Escala de Actividades Instrumentales de la Vida Diaria",{'fields':(
-            'can_use_phone', 'can_walk', 'can_shop', 'can_cook', 'can_do_home_work',
-            'can_do_manual_work', 'can_self_sanitize', 'taking_medication',
-            'can_take_medication', 'can_manage_money'),
+        ("Escala de Actividades Instrumentales de la Vida Diaria", {'fields': (
+            'can_use_phone', 'can_walk', 'can_shop', 'can_cook',
+            'can_do_home_work', 'can_do_manual_work', 'can_self_sanitize',
+            'taking_medication', 'can_take_medication', 'can_manage_money'),
             'classes': ('collapse',)
         }),
-        ("Mini Mental State Examination", {"fields": ('orientation_date', 'orientation_place', 'record',
-            'atention_calculus', 'memory', 'lenguage_names', 'lenguage_repeat', 'lenguage_indicate',
-            'lenguage_obey', 'lenguage_write', 'lenguage_draw'),
+        ("Mini Mental State Examination", {"fields": (
+            'orientation_date',
+            'orientation_place', 'record', 'atention_calculus', 'memory',
+            'lenguage_names', 'lenguage_repeat', 'lenguage_indicate',
+            'lenguage_obey', 'lenguage_write', 'lenguage_draw'
+        ),
             'classes': ('collapse',)
         }),
-        (None, {'fields':(('weight', 'size'),
-            ('diatolic_blood_pressure','sistolic_blood_pressure'),
+        (None, {'fields': (
+            ('weight', 'size'),
+            ('diatolic_blood_pressure', 'sistolic_blood_pressure'),
             'ldh')
         }),
-        ("Mini Nutritional Assessment (MNA)", {"fields": ('stopped_eating', 'lost_weight', 'movility',
-            'had_stress', 'neorologic_issues'),
+        ("Mini Nutritional Assessment (MNA)", {"fields": (
+            'stopped_eating', 'lost_weight', 'movility', 'had_stress',
+            'neorologic_issues'
+            ),
             'classes': ('collapse',)
         }),
-        (None, {'fields':
-            ('chemotherapy_scheme', 'dose_adjustment', 'discontinuation', 'observations'),
+        (None, {'fields': (
+            'chemotherapy_scheme', 'dose_adjustment', 'discontinuation',
+            'observations'),
         }),
     )
 
 
 class PatientAdmin(admin.ModelAdmin):
+    """
+    Configuration for the Patient moel in the django admin.
+    """
     name = "Paciente"
     list_display_links = ('name', 'last_name')
     list_display = ('name', 'last_name', 'clinical_history', 'dni')
@@ -68,23 +77,32 @@ class PatientAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Patient Data', {
-            'fields': (('clinical_history','dni'), ('name', 'last_name'),
-                        'born_date', 'genre', 'phone', 'study_level', 'social_support' ),
+            'fields': (
+                ('clinical_history', 'dni'), ('name', 'last_name'),
+                'born_date', 'genre', 'phone', 'study_level',
+                'social_support'
+                ),
         }),
     )
 
-    search_fields = ['name', 'last_name','dni', 'clinical_history']
-
+    search_fields = ['name', 'last_name', 'dni', 'clinical_history']
 
     def get_readonly_fields(self, request, obj=None):
+        """
+            If there's no edit in the url, we'll show the patient as readonly.
+        """
         if 'edit' not in request.GET:
             return ('name', 'last_name', 'born_date', 'genre', 'dni',
-                    'clinical_history', 'phone', 'study_level', 'social_support')
+                    'clinical_history', 'phone', 'study_level',
+                    'social_support')
         else:
             return self.readonly_fields
 
-
     def change_view(self, request, object_id, form_url='', extra_context=None):
+        """
+            if we're seeing a patient (not editing or adding), we want to only
+        show save button, to save the inline medical interviews.
+        """
         extra_context = extra_context or {}
         if not request.GET.get('edit', False):
             extra_context['add'] = False
@@ -92,11 +110,16 @@ class PatientAdmin(admin.ModelAdmin):
             extra_context['show_save_continue'] = False
             extra_context['show_save_continue'] = False
             extra_context['show_save_add'] = False
-        return super(PatientAdmin, self).change_view(request, object_id,
-            form_url, extra_context=extra_context)
-
+        return super(PatientAdmin, self).change_view(
+            request, object_id,
+            form_url,
+            extra_context=extra_context
+        )
 
     def save_formset(self, request, form, formset, change):
+        """
+            Set the logged in user as the medic of the medical interview.
+        """
         instances = formset.save(commit=False)
         for instance in instances:
             instance.medico = request.user

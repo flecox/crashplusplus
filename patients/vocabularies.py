@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 
 GENRE_CHOICES = (
     ('M', 'Masculino'),
@@ -58,7 +59,7 @@ LOST_WEIGHT_CHOICES = (
     (3, "No ha perdido peso"),
 )
 
-MOVILITY_CHOICES =  (
+MOVILITY_CHOICES = (
     (0, "Permanece en cama"),
     (1, "Capaz de salir de la cama o silla pero no fuera de la casa"),
     (2, "Sale de la casa"),
