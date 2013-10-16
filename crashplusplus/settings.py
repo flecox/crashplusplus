@@ -179,4 +179,6 @@ LOGGING = {
     }
 }
 
+VIRTUALENV = os.path.join(BASE_DIR, 'lib/python2.7/site-packages')
+
 from settings_local import *
