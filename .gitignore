@@ -34,3 +34,7 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+#local settings
+fabfile_local.py
+settings_local.py
