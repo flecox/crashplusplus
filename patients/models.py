@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 from django.db import models
 from django.contrib.auth.models import User, Group
-
+from django_extensions.db.fields.encrypted import EncryptedCharField
 #change and import one by one
 from vocabularies import *
 
@@ -66,17 +66,17 @@ class Medic(models.Model):
 
 class Patient(models.Model):
 
-    name = models.CharField("Nombre", max_length=100, )
-    last_name = models.CharField("Apellido", max_length=100)
-    born_date = models.DateField('Fecha Nacimiento', blank=True,
+    name = EncryptedCharField("Nombre", max_length=100, )
+    last_name = EncryptedCharField("Apellido", max_length=100)
+    born_date = models.DateTimeField('Fecha Nacimiento', blank=True,
                                  null=True)
     genre = models.CharField("Genero", max_length=2,
                              choices=GENRE_CHOICES, blank=True,
                              null=True)
-    dni = models.CharField(max_length=8)
-    clinical_history = models.CharField("Historia Clinica", max_length=20,
+    dni = EncryptedCharField (max_length=8)
+    clinical_history = EncryptedCharField ("Historia Clinica", max_length=20,
                                         blank=True, null=True)
-    phone = models.CharField("Telefono", max_length=20, blank=True,
+    phone = EncryptedCharField ("Telefono", max_length=20, blank=True,
                              null=True)
     study_level = models.IntegerField("Nivel de estudio",
                                       choices=STUDY_LEVEL_CHOICES, blank=True,
