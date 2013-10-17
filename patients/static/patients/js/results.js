@@ -76,7 +76,7 @@
 
         $.ajax({
           url: '/admin/patients/results/',
-          type: 'GET',
+          type: 'POST',
           async: false,
           data: data,
           success: function(result, e) {
