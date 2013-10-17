@@ -126,4 +126,22 @@ class PatientAdmin(admin.ModelAdmin):
             instance.save()
         formset.save_m2m()
 
+
+    def queryset(self, request):
+        qs = super(PatientAdmin, self).queryset(request)
+        ##XXX: the fields are encrypted so this its not lazy.. must find another
+        ##way
+        search = request.GET.get('q', None)
+        result = []
+        FOUND = False
+        if search:
+            for elem in qs:
+                if search in [elem.clinical_history, elem.name, elem.last_name, elem.dni]:
+                    result.append(elem)
+                    FOUND = True
+            if FOUND:
+                return result
+        # modify queryset here, eg. only user-assigned tasks
+        return qs
+
 admin.site.register(Patient, PatientAdmin)
