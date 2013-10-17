@@ -85,3 +85,9 @@ def update():
         run("source bin/activate && echo 'yes\n'| python manage.py collectstatic")
         run("./start_env.sh .")
         sudo("/etc/init.d/lighttpd restart")
+
+
+def start():
+    with cd("crashplusplus"):
+        run("./start_env.sh .")
+        sudo("/etc/init.d/lighttpd restart")
