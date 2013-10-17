@@ -32,7 +32,6 @@ class Cie10(models.Model):
     class Meta:
         verbose_name = "Cie-10"
         verbose_name_plural = "Cie-10"
-        app_label = string_with_title("patients", "Pacientes")
 
 
 class ChemotherapySchema(models.Model):
@@ -47,7 +46,6 @@ class ChemotherapySchema(models.Model):
     class Meta:
         verbose_name = "Esquema de Quimioterapia"
         verbose_name_plural = "Esquemas de Quimioterapias"
-        app_label = string_with_title("patients", "Pacientes")
 
 
 class Medic(models.Model):
@@ -76,7 +74,6 @@ class Medic(models.Model):
     class Meta:
         verbose_name = "Medico"
         verbose_name_plural = "Medicos"
-        app_label = string_with_title("patients", "Pacientes")
 
 
 class Patient(models.Model):
@@ -100,7 +97,6 @@ class Patient(models.Model):
 
     class Meta:
         verbose_name = "Paciente"
-        app_label = string_with_title("patients", "Pacientes")
         verbose_name_plural = "Pacientes"
 
     def __unicode__(self):
@@ -306,4 +302,3 @@ class MedicalInterview(models.Model):
     class Meta:
         verbose_name = "Consulta"
         verbose_name_plural = "Consultas"
-        app_label = string_with_title("patients", "Pacientes")
