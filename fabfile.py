@@ -63,6 +63,7 @@ def scratch_project():
     with cd("crashplusplus"):
         print(green("sync database..."))
         run("source bin/activate && python manage.py syncdb --migrate")
+        run("source bin/activate && python manage.py init_table")
         run("mkdir static")
         print(green("collect staticfiles..."))
         run("source bin/activate && echo 'yes\n'| python manage.py collectstatic")
