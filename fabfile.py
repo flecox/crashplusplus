@@ -72,8 +72,15 @@ def scratch_project():
         print(green("start wsgi server"))
         run("chmod +x production")
         run("chmod +x start_env.sh")
+        run("chmod +x stop_env.sh")
+        run("./start_env.sh")
+        sudo("/etc/init.d/lighttpd restart")
 
 
 def update():
     with cd("crashplusplus"):
         run("git pull")
+        run("./stop_env.sh")
+        run("python manage.py migrate")
+        run("./start_env.sh")
+        sudo("/etc/init.d/lighttpd restart")
