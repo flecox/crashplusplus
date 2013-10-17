@@ -14,7 +14,7 @@ class Migration(SchemaMigration):
             ('value', self.gf('django.db.models.fields.CharField')(max_length=10)),
             ('description', self.gf('django.db.models.fields.CharField')(max_length=100)),
         ))
-        db.send_create_signal(u'patients', ['Cie10'])
+        db.send_create_signal('patients', ['Cie10'])
 
         # Adding model 'ChemotherapySchema'
         db.create_table(u'patients_chemotherapyschema', (
@@ -22,7 +22,7 @@ class Migration(SchemaMigration):
             ('title', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('risk', self.gf('django.db.models.fields.IntegerField')()),
         ))
-        db.send_create_signal(u'patients', ['ChemotherapySchema'])
+        db.send_create_signal('patients', ['ChemotherapySchema'])
 
         # Adding model 'Medic'
         db.create_table(u'patients_medic', (
@@ -30,7 +30,7 @@ class Migration(SchemaMigration):
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
             ('medic_id_number', self.gf('django.db.models.fields.CharField')(max_length=100)),
         ))
-        db.send_create_signal(u'patients', ['Medic'])
+        db.send_create_signal('patients', ['Medic'])
 
         # Adding model 'Patient'
         db.create_table(u'patients_patient', (
@@ -45,7 +45,7 @@ class Migration(SchemaMigration):
             ('study_level', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('social_support', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
-        db.send_create_signal(u'patients', ['Patient'])
+        db.send_create_signal('patients', ['Patient'])
 
         # Adding model 'MedicalInterview'
         db.create_table(u'patients_medicalinterview', (
@@ -101,7 +101,7 @@ class Migration(SchemaMigration):
             ('discontinuation', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('observations', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
         ))
-        db.send_create_signal(u'patients', ['MedicalInterview'])
+        db.send_create_signal('patients', ['MedicalInterview'])
 
 
     def backwards(self, orm):
@@ -158,25 +158,25 @@ class Migration(SchemaMigration):
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'patients.chemotherapyschema': {
+        'patients.chemotherapyschema': {
             'Meta': {'object_name': 'ChemotherapySchema'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'risk': ('django.db.models.fields.IntegerField', [], {}),
             'title': ('django.db.models.fields.CharField', [], {'max_length': '100'})
         },
-        u'patients.cie10': {
+        'patients.cie10': {
             'Meta': {'object_name': 'Cie10'},
             'description': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'value': ('django.db.models.fields.CharField', [], {'max_length': '10'})
         },
-        u'patients.medic': {
+        'patients.medic': {
             'Meta': {'object_name': 'Medic'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'medic_id_number': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         },
-        u'patients.medicalinterview': {
+        'patients.medicalinterview': {
             'Meta': {'object_name': 'MedicalInterview'},
             'atention_calculus': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'bone_compromised': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -189,8 +189,8 @@ class Migration(SchemaMigration):
             'can_take_medication': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'can_use_phone': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'can_walk': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'chemotherapy_scheme': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['patients.ChemotherapySchema']", 'null': 'True', 'blank': 'True'}),
-            'cie_10': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['patients.Cie10']", 'null': 'True', 'blank': 'True'}),
+            'chemotherapy_scheme': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['patients.ChemotherapySchema']", 'null': 'True', 'blank': 'True'}),
+            'cie_10': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['patients.Cie10']", 'null': 'True', 'blank': 'True'}),
             'cirs_g_index': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'}),
             'cirs_g_severity_3': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'current_treatment_type': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -217,7 +217,7 @@ class Migration(SchemaMigration):
             'observations': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
             'orientation_date': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'orientation_place': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            'patient': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'medical_interviews'", 'to': u"orm['patients.Patient']"}),
+            'patient': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'medical_interviews'", 'to': "orm['patients.Patient']"}),
             'performance_status': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'prior_chemotherapies': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
             'record': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -230,7 +230,7 @@ class Migration(SchemaMigration):
             'usual_medication': ('django.db.models.fields.CharField', [], {'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'weight': ('django.db.models.fields.FloatField', [], {'null': 'True', 'blank': 'True'})
         },
-        u'patients.patient': {
+        'patients.patient': {
             'Meta': {'object_name': 'Patient'},
             'born_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'clinical_history': ('django.db.models.fields.CharField', [], {'max_length': '108', 'null': 'True', 'blank': 'True'}),

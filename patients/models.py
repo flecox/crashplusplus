@@ -6,6 +6,18 @@ from django_extensions.db.fields.encrypted import EncryptedCharField
 from vocabularies import *
 
 
+class string_with_title(str):
+    def __new__(cls, value, title):
+        instance = str.__new__(cls, value)
+        instance._title = title
+        return instance
+
+    def title(self):
+        return self._title
+
+    __copy__ = lambda self: self
+    __deepcopy__ = lambda self, memodict: self
+
 class Cie10(models.Model):
     """
     This model represnt the cie-10 medical clasification for illness
@@ -20,8 +32,7 @@ class Cie10(models.Model):
     class Meta:
         verbose_name = "Cie-10"
         verbose_name_plural = "Cie-10"
-        app_label = 'pacientes'
-        db_table = 'patients_cie_20'
+        app_label = string_with_title("patients", "Pacientes")
 
 
 class ChemotherapySchema(models.Model):
@@ -36,8 +47,7 @@ class ChemotherapySchema(models.Model):
     class Meta:
         verbose_name = "Esquema de Quimioterapia"
         verbose_name_plural = "Esquemas de Quimioterapias"
-        app_label = 'pacientes'
-        db_table = 'patients_chemotherapyschema'
+        app_label = string_with_title("patients", "Pacientes")
 
 
 class Medic(models.Model):
@@ -66,8 +76,7 @@ class Medic(models.Model):
     class Meta:
         verbose_name = "Medico"
         verbose_name_plural = "Medicos"
-        app_label = 'pacientes'
-        db_table = 'patients_medic'
+        app_label = string_with_title("patients", "Pacientes")
 
 
 class Patient(models.Model):
@@ -91,9 +100,8 @@ class Patient(models.Model):
 
     class Meta:
         verbose_name = "Paciente"
-        app_label = 'pacientes'
+        app_label = string_with_title("patients", "Pacientes")
         verbose_name_plural = "Pacientes"
-        db_table = 'patients_patient'
 
     def __unicode__(self):
         return "%s %s - %s" % (self.name, self.last_name, self.dni)
@@ -298,5 +306,4 @@ class MedicalInterview(models.Model):
     class Meta:
         verbose_name = "Consulta"
         verbose_name_plural = "Consultas"
-        app_label = 'pacientes'
-        db_table = 'patients_medical_interview'
+        app_label = string_with_title("patients", "Pacientes")
