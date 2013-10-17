@@ -76,7 +76,7 @@ class PatientAdmin(admin.ModelAdmin):
     ]
 
     fieldsets = (
-        ('Patient Data', {
+        (None, {
             'fields': (
                 ('clinical_history', 'dni'), ('name', 'last_name'),
                 'born_date', 'genre', 'phone', 'study_level',

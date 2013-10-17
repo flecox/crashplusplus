@@ -30,7 +30,7 @@
 {% if change %}{% if not is_popup %}
   <ul class="object-tools">
     {% if not request.GET.edit %}
-    <li><a href="?edit=1">{% trans "Edit" %}</a></li>
+    <li><a href="?edit=1">Editar</a></li>
     {% endif %}
     {% block object-tools-items %}
     <li><a href="{% url opts|admin_urlname:'history' original.pk|admin_urlquote %}" class="historylink">{% trans "History" %}</a></li>
