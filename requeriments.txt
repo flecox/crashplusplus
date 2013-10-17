@@ -10,3 +10,5 @@ pycrypto==2.6
 python-keyczar==0.71c
 six==1.4.1
 wsgiref==0.1.2
+flup==1.0.2
+argparse==1.2.1

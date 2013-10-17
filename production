@@ -3,4 +3,5 @@ LOCAL=$(pwd)
 PID_FILE=$LOCAL/$SLUG.pid
 HOST=127.0.0.1
 PORT=16667
+#MANAGE_COMMAND="runfcgi host=$HOST port=$PORT pidfile=$PID_FILE maxrequests=1 daemonize=false"
 MANAGE_COMMAND="runfcgi host=$HOST port=$PORT pidfile=$PID_FILE"

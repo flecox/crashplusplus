@@ -4,6 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.core.urlresolvers import resolve
 from django.contrib import admin
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
 from patients.models import ChemotherapySchema
 from patients.medical_calculations import (
@@ -35,6 +36,7 @@ def redirect(request):
         return resolved[0](request)
 
 
+@csrf_exempt
 def medic_calculation(request):
     """
     Do the diferent calculations needed in a MedicalInterview.
