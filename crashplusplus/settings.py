@@ -186,4 +186,6 @@ VIRTUALENV = os.path.join(BASE_DIR, 'lib/python2.7/site-packages')
 
 FORCE_SCRIPT_NAME = ''
 
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+
 from settings_local import *

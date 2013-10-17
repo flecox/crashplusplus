@@ -59,6 +59,8 @@ def scratch_project():
         run('echo "} " >> settings_local.py')
         run('echo "DEBUG = False" >> settings_local.py')
         run('echo "TEMPLATE_DEBUG = DEBUG" >> settings_local.py')
+        run('echo "ALLOWED_HOSTS = [\'127.0.0.1\', \'localhost\', \'inodoro.homelinux.org\']" >> settings_local.py')
+
 
     with cd("crashplusplus"):
         print(green("sync database..."))
@@ -72,3 +74,6 @@ def scratch_project():
         run("chmod +x start_env.sh")
 
 
+def update():
+    with cd("crashplusplus"):
+        run("git pull")
