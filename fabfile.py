@@ -73,7 +73,7 @@ def scratch_project():
         run("chmod +x production")
         run("chmod +x start_env.sh")
         run("chmod +x stop_env.sh")
-        run("./start_env.sh")
+        run("./start_env.sh .")
         sudo("/etc/init.d/lighttpd restart")
 
 
@@ -83,5 +83,5 @@ def update():
         run("./stop_env.sh")
         run("source bin/activate && python manage.py migrate")
         run("source bin/activate && echo 'yes\n'| python manage.py collectstatic")
-        run("./start_env.sh")
+        run("./start_env.sh .")
         sudo("/etc/init.d/lighttpd restart")
