@@ -184,4 +184,6 @@ LOGGING = {
 
 VIRTUALENV = os.path.join(BASE_DIR, 'lib/python2.7/site-packages')
 
+FORCE_SCRIPT_NAME = ''
+
 from settings_local import *

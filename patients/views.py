@@ -41,54 +41,54 @@ def medic_calculation(request):
     aivd, mna, mmt ,cmi
     """
     # variables used to get aivd
-    can_use_phone = int(request.GET.get('can_use_phone'))
-    can_walk = int(request.GET.get('can_walk'))
-    can_shop = int(request.GET.get('can_shop'))
-    can_cook = int(request.GET.get('can_cook'))
-    can_do_home_work = int(request.GET.get('can_do_home_work'))
-    can_do_manual_work = int(request.GET.get('can_do_manual_work'))
-    can_self_sanitize = int(request.GET.get('can_self_sanitize'))
-    can_take_medication = int(request.GET.get('can_take_medication'))
-    can_manage_money = int(request.GET.get('can_manage_money'))
+    can_use_phone = int(request.POST.get('can_use_phone'))
+    can_walk = int(request.POST.get('can_walk'))
+    can_shop = int(request.POST.get('can_shop'))
+    can_cook = int(request.POST.get('can_cook'))
+    can_do_home_work = int(request.POST.get('can_do_home_work'))
+    can_do_manual_work = int(request.POST.get('can_do_manual_work'))
+    can_self_sanitize = int(request.POST.get('can_self_sanitize'))
+    can_take_medication = int(request.POST.get('can_take_medication'))
+    can_manage_money = int(request.POST.get('can_manage_money'))
 
     aivd = (can_use_phone + can_walk + can_shop + can_cook + can_do_home_work +
             can_do_manual_work + can_self_sanitize + can_take_medication +
             can_manage_money)
 
     #varibales used to get mmt
-    orientation_date = int(request.GET.get('orientation_date'))
-    orientation_place = int(request.GET.get('orientation_place'))
-    record = int(request.GET.get('record'))
-    atention_calculus = int(request.GET.get('atention_calculus'))
-    memory = int(request.GET.get('memory'))
-    lenguage_names = int(request.GET.get('lenguage_names'))
-    lenguage_repeat = int(request.GET.get('lenguage_repeat'))
-    lenguage_indicate = int(request.GET.get('lenguage_indicate'))
-    lenguage_obey = int(request.GET.get('lenguage_obey'))
-    lenguage_write = int(request.GET.get('lenguage_write'))
-    lenguage_draw = int(request.GET.get('lenguage_draw'))
+    orientation_date = int(request.POST.get('orientation_date'))
+    orientation_place = int(request.POST.get('orientation_place'))
+    record = int(request.POST.get('record'))
+    atention_calculus = int(request.POST.get('atention_calculus'))
+    memory = int(request.POST.get('memory'))
+    lenguage_names = int(request.POST.get('lenguage_names'))
+    lenguage_repeat = int(request.POST.get('lenguage_repeat'))
+    lenguage_indicate = int(request.POST.get('lenguage_indicate'))
+    lenguage_obey = int(request.POST.get('lenguage_obey'))
+    lenguage_write = int(request.POST.get('lenguage_write'))
+    lenguage_draw = int(request.POST.get('lenguage_draw'))
 
     mmt = (orientation_date + orientation_place + record + atention_calculus +
            memory + lenguage_names + lenguage_repeat + lenguage_indicate +
            lenguage_obey + lenguage_draw + lenguage_write)
 
     #variables used to get mna
-    stopped_eating = int(request.GET.get('stopped_eating'))
-    lost_weight = int(request.GET.get('lost_weight'))
-    movility = int(request.GET.get('movility'))
-    had_stress = int(request.GET.get('had_stress'))
-    neorologic_issues = int(request.GET.get('neorologic_issues'))
+    stopped_eating = int(request.POST.get('stopped_eating'))
+    lost_weight = int(request.POST.get('lost_weight'))
+    movility = int(request.POST.get('movility'))
+    had_stress = int(request.POST.get('had_stress'))
+    neorologic_issues = int(request.POST.get('neorologic_issues'))
 
     mna = (stopped_eating + lost_weight + movility + had_stress +
            neorologic_issues)
 
     #other variables
-    weight = float(request.GET.get('weight', 1))
-    height = int(request.GET.get('size', 1))
-    blood_presure = float(request.GET.get('diatolic_blood_pressure', 0))
-    ldh = int(request.GET.get('ldh', 0))
-    performanse_status = int(request.GET.get('performance_status', 0))
-    scheme = int(request.GET.get("chemotherapy_scheme", None))
+    weight = float(request.POST.get('weight', 1))
+    height = int(request.POST.get('size', 1))
+    blood_presure = float(request.POST.get('diatolic_blood_pressure', 0))
+    ldh = int(request.POST.get('ldh', 0))
+    performanse_status = int(request.POST.get('performance_status', 0))
+    scheme = int(request.POST.get("chemotherapy_scheme", None))
 
     cmi = corporal_mass_index(weight, height)
     bsa = body_surface_area(weight, height)
