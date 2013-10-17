@@ -81,6 +81,7 @@ def update():
     with cd("crashplusplus"):
         run("git pull")
         run("./stop_env.sh")
-        run("python manage.py migrate")
+        run("source bin/activate && python manage.py migrate")
+        run("source bin/activate && echo 'yes\n'| python manage.py collectstatic")
         run("./start_env.sh")
         sudo("/etc/init.d/lighttpd restart")
