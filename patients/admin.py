@@ -1,4 +1,7 @@
+# -*- coding:utf-8 -*-
+from django.forms import ModelForm
 from django.contrib import admin
+from django import forms
 from patients.models import Patient, MedicalInterview, Medic
 
 
@@ -8,8 +11,17 @@ class MedicAdmin(admin.ModelAdmin):
 admin.site.register(Medic, MedicAdmin)
 
 
+class MedicalInterviewAdminForm(ModelForm):
+    """Additional display Fields for Profile"""
+    body_surface_area = forms.FloatField(label="Superficie de área corporal", required=False)
+    corporal_mass_index = forms.FloatField(label='Indice de masa corporal', required=False)
+
+    class Meta:
+        model = MedicalInterview
+
 class MedicalInterviewAdmin(admin.StackedInline):
     model = MedicalInterview
+    form = MedicalInterviewAdminForm
     extra = 0
     fieldsets = (
         (None, {
@@ -40,8 +52,8 @@ class MedicalInterviewAdmin(admin.StackedInline):
             'classes': ('collapse',)
         }),
         (None, {'fields': (
-            ('weight', 'size'),
-            ('diatolic_blood_pressure', 'sistolic_blood_pressure'),
+            ('weight', 'size', 'body_surface_area', 'corporal_mass_index'),
+            ('sistolic_blood_pressure', 'diatolic_blood_pressure'),
             'ldh')
         }),
         ("Mini Nutritional Assessment (MNA)", {"fields": (

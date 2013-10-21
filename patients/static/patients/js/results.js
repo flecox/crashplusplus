@@ -1,5 +1,62 @@
+
 (function($) {
+
+  function body_surface_area(weight, size, id) {
+    var bsa = Math.sqrt((weight*size)/3600).toFixed(2);
+    $(id + "body_surface_area").val(bsa);
+  }
+
+  function corporal_mass_index(weight, size, id) {
+    var tmp = weight/Math.pow(size/100.0, 2);
+    var cmi = tmp.toFixed(2);
+    $(id + "corporal_mass_index").val(cmi);
+  }
+
+  function weight_changed() {
+   var index = $(this).attr("id").split("-")[1];
+   var id = "#id_medical_interviews-" + index + "-";
+   var size = $(id + "size").val();
+   var weight = $(this).val();
+   if(weight && size) {
+    body_surface_area(weight, size, id);
+    corporal_mass_index(weight, size, id);
+   }
+  }
+
+  function size_changed() {
+    var index = $(this).attr("id").split("-")[1];
+    var id = "#id_medical_interviews-" + index + "-";
+    var weight = $(id + "weight").val();
+    var size = $(this).val();
+    if(weight && size) {
+      body_surface_area(weight, size, id);
+      corporal_mass_index(weight, size, id);
+    }
+  }
+
+  function calculate() {
+    var i = 0;
+    for(i=0; i< $(".inline-related").length; i++) {
+      var id = "#id_medical_interviews-" + i + "-";
+      $(id + "weight").change(weight_changed);
+      $(id + "size").change(size_changed);
+    }
+  }
+
+  $(".add-row a").live("click", function() {
+    calculate();
+  });
+
   if($(".modal-container").length) {
+    calculate();
+
+
+    for(i=0; i< $(".inline-related").length; i++) {
+      var id = "#id_medical_interviews-" + i + "-";
+      $(id + "weight").trigger("change");
+      $(id + "size").trigger("change");
+    }
+
     $(".modal-container").easyModal();
     $(".close-modal").click(function() {
       $(".modal-container").trigger('closeModal');
@@ -34,7 +91,6 @@
 
         var i = 0;
         var can_send = true;
-        console.log(splitted);
 
         for(i=0; i< attr_list.length; i++) {
 
