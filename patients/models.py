@@ -148,6 +148,7 @@ class MedicalInterview(models.Model):
     piel_y_musculoesqueletico = models.IntegerField("Piel y musculoesquelético", blank=True, null=True, choices=PIEL_Y_MUSCULOESQUELETICO_CHOICE)
     neurologico = models.IntegerField("Neurológico", blank=True, null=True, choices=NEUROLOGICO_CHOICE)
     endocrino_metabolico_y_mama = models.IntegerField("Endócrino, Metabólico y Mama", blank=True, null=True, choices=ENDOCRINO_METABOLICO_Y_MAMA_CHOICE)
+    enfermedad_psiquiatrica = models.IntegerField("Enfermedad Psiquiátrica", blank=True, null=True, choices=ENFERMEDAD_PSIQUIATRICA_CHOICE)
 
 
 

@@ -39,7 +39,7 @@ class MedicalInterviewAdmin(admin.StackedInline):
             'gastrointestinal_superior', 'gastrointestinal_inferior',
             'higado', 'renal', 'genitourinario',
             'piel_y_musculoesqueletico', 'neurologico',
-            'endocrino_metabolico_y_mama'),
+            'endocrino_metabolico_y_mama', 'enfermedad_psiquiatrica'),
             'classes': ('collapse',)
         }),
         (None, {'fields': (
