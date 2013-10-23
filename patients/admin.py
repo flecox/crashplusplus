@@ -97,7 +97,8 @@ class PatientAdmin(admin.ModelAdmin):
         }),
     )
 
-    search_fields = ['name', 'last_name', 'dni', 'clinical_history']
+    search_fields = []
+    #search_fields = ['name', 'last_name', 'dni', 'clinical_history']
 
     def get_readonly_fields(self, request, obj=None):
         """
@@ -117,7 +118,6 @@ class PatientAdmin(admin.ModelAdmin):
         """
         extra_context = extra_context or {}
         if not request.GET.get('edit', False):
-            extra_context['add'] = False
             extra_context['show_save'] = True
             extra_context['show_save_continue'] = False
             extra_context['show_save_continue'] = False
@@ -144,15 +144,13 @@ class PatientAdmin(admin.ModelAdmin):
         ##XXX: the fields are encrypted so this its not lazy.. must find another
         ##way
         search = request.GET.get('q', None)
-        result = []
-        FOUND = False
+        ids = []
         if search:
             for elem in qs:
-                if search in [elem.clinical_history, elem.name, elem.last_name, elem.dni]:
-                    result.append(elem)
-                    FOUND = True
-            if FOUND:
-                return result
+                if search.lower() in [elem.clinical_history.lower(), elem.name.lower(), elem.last_name.lower(), elem.dni.lower()]:
+                    ids.append(elem.id)
+            return self.model.objects.filter(pk__in=ids)
+
         # modify queryset here, eg. only user-assigned tasks
         return qs
 
