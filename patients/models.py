@@ -80,7 +80,7 @@ class Patient(models.Model):
 
     name = EncryptedCharField("Nombre", max_length=100, )
     last_name = EncryptedCharField("Apellido", max_length=100)
-    born_date = models.DateTimeField('Fecha Nacimiento', blank=True,
+    born_date = models.DateField('Fecha Nacimiento', blank=True,
                                  null=True)
     genre = models.CharField("Genero", max_length=2,
                              choices=GENRE_CHOICES, blank=True,
@@ -131,6 +131,26 @@ class MedicalInterview(models.Model):
     current_treatment_type = models.IntegerField("Tipo de Tratamiento Actual",
                                                  choices=TREATMENT_TYPE_CHOICE,
                                                  blank=True, null=True)
+
+    #comorbidty
+
+
+    corazon = models.IntegerField("Corazón", blank=True, null=True, choices=CORAZON_CHOICE)
+    vascular = models.IntegerField("Vascular", blank=True, null=True, choices=VASCULAR_CHOICE)
+    hematopoyetico = models.IntegerField("Hematopoyetico", blank=True, null=True, choices=HEMATOPOYETICO_CHOICE)
+    respiratorio = models.IntegerField("Respiratorio", blank=True, null=True, choices=RESPIRATORIO_CHOICE)
+    orl = models.IntegerField("ORL", blank=True, null=True, choices=ORL_CHOICE)
+    gastrointestinal_superior = models.IntegerField("Gastrointestinal superior", blank=True, null=True, choices=GASTROINTESTINAL_SUPERIOR_CHOICE)
+    gastrointestinal_inferior = models.IntegerField("Gastrointestinal inferior", blank=True, null=True, choices=GASTROINTESTINAL_INFERIOR_CHOICE)
+    higado = models.IntegerField("Higado", blank=True, null=True, choices=HIGADO_CHOICE)
+    renal = models.IntegerField("Renal", blank=True, null=True, choices=RENAL_CHOICE)
+    genitourinario = models.IntegerField("Genitourinario", blank=True, null=True, choices=GENITOURINARIO_CHOICE)
+    piel_y_musculoesqueletico = models.IntegerField("Piel y musculoesquelético", blank=True, null=True, choices=PIEL_Y_MUSCULOESQUELETICO_CHOICE)
+    neurologico = models.IntegerField("Neurológico", blank=True, null=True, choices=NEUROLOGICO_CHOICE)
+    endocrino_metabolico_y_mama = models.IntegerField("Endócrino, Metabólico y Mama", blank=True, null=True, choices=ENDOCRINO_METABOLICO_Y_MAMA_CHOICE)
+
+
+
 
     #aivd
     can_use_phone = models.IntegerField("¿Puede usar el teléfono?",

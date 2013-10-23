@@ -19,6 +19,7 @@ class MedicalInterviewAdminForm(ModelForm):
     class Meta:
         model = MedicalInterview
 
+
 class MedicalInterviewAdmin(admin.StackedInline):
     model = MedicalInterview
     form = MedicalInterviewAdminForm
@@ -30,9 +31,17 @@ class MedicalInterviewAdmin(admin.StackedInline):
         (None, {'fields': (
             ('cie_10', 'stage', 'stage_observations', 'bone_compromised',),
             'prior_chemotherapies',
-            ('number_comorbidity_categories', 'usual_medication'),
+            ('usual_medication'),
             ('cirs_g_index', 'cirs_g_severity_3'),
             'current_treatment_type',)}),
+        ("Comorbilidades", {'fields':
+            ('corazon', 'vascular', 'hematopoyetico', 'respiratorio', 'orl',
+            'gastrointestinal_superior', 'gastrointestinal_inferior',
+            'higado', 'renal', 'genitourinario',
+            'piel_y_musculoesqueletico', 'neurologico',
+            'endocrino_metabolico_y_mama'),
+            'classes': ('collapse',)
+        }),
         (None, {'fields': (
             'performance_status',
             'falls')
