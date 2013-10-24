@@ -1,26 +1,38 @@
 <div class="calculation-modal">
 	<table>
+		{% if can_aivd %}
 		<tr>
 			<td><b>AIVD</b></td><td>{{aivd}}</td>
 		</tr>
+		{% endif %}
+		{% if can_mna %}
 		<tr>
 			<td><b>MNA</b></td><td>{{mna}}</td>
 		</tr>
+		{% endif %}
+		{% if can_mmt %}
 		<tr>
 			<td><b>MMT</b></td><td>{{mmt}}</td>
 		</tr>
+		{% endif %}
+		{% if can_hem %}
 		<tr>
 			<td><b>Riesgo Hematológico</b></td><td>{{h_toc}} <span class="hem-{{h_toc}}">{{hem_str}}</span></td>
 		</tr>
+		{% endif %}
+		{% if can_non_hem %}
 		<tr>
 			<td><b>Riesgo No Hematológico</b></td><td>{{non_h_tox}}
 			<span class="non-hem-{{non_h_tox}}">{{non_hem_str}} </span></td>
 		</tr>
+		{% endif %}
+		{% if can_non_hem and can_hem %}
 		<tr>
 			<td><b>Riesgo Combinado</b></td><td>{{comb_h_tox}}
 			<span class="comb-{{non_h_tox}}">{{comb_hem_str}} </span>
 			</td>
 		</tr>
+		{% endif %}
 
 	</table>
 </div>

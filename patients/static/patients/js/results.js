@@ -62,9 +62,7 @@
       $(".modal-container").trigger('closeModal');
     });
     $(".calculate-medic").live("click", function(e) {
-      console.log("moo");
         e.preventDefault();
-        console.log("mmm");
 
         var parent = $(this).parent().parent();
 
@@ -97,17 +95,13 @@
           var attr = attr_list[i];
           var field = $("#"+ id + attr);
           var container = field.parent().parent();
-          console.log($("#"+ id + attr));
-          data[attr] = field.val();
 
           $(".errorlist", container).remove();
-          if(!data[attr]) {
-
+          if(!field.val()) {
             container.prepend("<ul class='errorlist'><li>Este campo es obligatorio</li></ul>");
-            can_send = false;
 
           } else if (integers.indexOf(attr) !== -1) {
-
+            data[attr] = field.val();
             var intRegex = /^\d+$/;
             if(!intRegex.test(data[attr])) {
               container = field.parent().parent();
@@ -116,13 +110,15 @@
             }
 
           } else if (floats.indexOf(attr) !== -1) {
-
+            data[attr] = field.val();
             var floatRegex = /^[-+]?([0-9]*\.[0-9]+|[0-9]+)$/;
             if(!floatRegex.test(data[attr])) {
                 container = field.parent().parent();
               container.prepend("<ul class='errorlist'><li>Ingrese un Numero Real</li></ul>");
                 can_send = false;
             }
+          } else {
+            data[attr] = field.val();
           }
         }
 
